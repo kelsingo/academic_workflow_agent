@@ -5,7 +5,7 @@ import re
 
 required_fields = ['course_ids', 'reason', 'plan']
 EXTRACT_MAX_COURSELOAD = """
-You are 
+You are an academic agent help to optimize academic workflow. 
 Extract the following fields from the student message:
 
 - course_ids (list of course IDs, max 5)
