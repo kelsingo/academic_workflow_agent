@@ -16,7 +16,7 @@ Set your Gemini API key as an environment variable:
 export GEMINI_API_KEY="your_api_key_here"
 ```
 
-### Run extraction test 
+### 2. Run extraction test 
 ```bash
 python API_request.py
 ```
