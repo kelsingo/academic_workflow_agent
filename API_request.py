@@ -66,11 +66,21 @@ def send_request(api_key, prompt):
         headers=headers,
         json=data,
     )
-    print(response)
+    print(response.status_code)
     result = response.json() 
-    text = result["candidates"][0]["content"]["parts"][0]["text"]
-    data = parse_json(text)
-    return data 
+
+    # Handle API error
+    if "candidates" not in result:
+        print("API failed:", result.get("error", "Unknown error"))
+        return {}
+
+    try:
+        text = result["candidates"][0]["content"]["parts"][0]["text"]
+    except Exception as e:
+        print("Parsing error:", e)
+        return {}
+
+    return parse_json(text)
 
 def update_state(state, extracted):
     for key in state: 
@@ -80,7 +90,7 @@ def update_state(state, extracted):
 def main():
     api_key = os.environ.get("GEMINI_API_KEY")
     print(api_key)
-    user_input = "I need to request for maximum courseload to enroll in these 5 courses: CS101, CS103, CS208"
+    user_input = "I want to learn maximum courseload to graduate on time, enroll in these 3 courses: CS101, CS103, CS208"
     prompt = build_prompt(user_input)
     output = send_request(api_key, prompt)
     print(output)
