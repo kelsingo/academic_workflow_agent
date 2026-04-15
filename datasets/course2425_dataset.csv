@@ -1,211 +1,211 @@
-Semester,Course Code,Cross-listed,Category,Course Name,Session #,Faculty,Pre-requisite
-Fall 24,ARTS101,,E1,Introduction to Visual Studies,1,Tram Luong,CORE 101
-Fall 24,ARTS102,,E1,Introduction to Art History & Theory,1,Pamela Corey,ARTS 101
-Fall 24,ARTS104,,E1,Introduction to Video and Film Production,1,Minh Trinh,ARTS 101
-Fall 24,ARTS108,,E1,Introduction to Theater and Performance,1,Tra Nguyen,
-Fall 24,ARTS112,,E1,Basic Drawing,1,Richard Streitmatter-Tran,ARTS 101
-Fall 24,ARTS206,,E1,Principles of Acting,1,Nha Uyen,ARTS 101
-Fall 24,ARTS207,VS,E1,Visualizing Vietnam,1,Pamela Corey,ARTS 101
-Fall 24,ARTS215,,E1,Directing Workshop,1,Minh Trinh,ARTS 104
-Fall 24,ARTS305,,,Curating in Context,1,Arlette Q-A Tran,ARTS 101; two 200-level ARTS courses
-Fall 24,ARTS308,,,Projects in Sculpture,1,Richard Streitmatter-Tran,ARTS 107; ARTS 112
-Fall 24,CORE101,,CORE,Global Humanities??,1,Mark Frank,
-Fall 24,CORE101,,CORE,Global Humanities??,2,Matthew McDonald,
-Fall 24,CORE101,,CORE,Global Humanities??,3,Elizabeth (Liz) Miles,
-Fall 24,CORE101,,CORE,Global Humanities??,4,Jasmine An,
-Fall 24,CORE101,,CORE,Global Humanities??,5,Elizabeth (Izzy) Liendo,
-Fall 24,CORE101,,CORE,Global Humanities??,6,Elsa Costa,
-Fall 24,CORE101,,CORE,Global Humanities??,7,Ian Kalman,
-Fall 24,CORE103,,CORE,Quantitative Reasoning,1,Trung Phan,
-Fall 24,CORE103,,CORE,Quantitative Reasoning,2,Ethan Brown,
-Fall 24,CORE104,,CORE,Scientific Inquiry,1,Gareth Davey,
-Fall 24,CORE105, ,CORE,Design and Systems Thinking,1,Quan Le, 
-Fall 24,CORE105, ,CORE,Design and Systems Thinking,2,Minh Nguyen, 
-Fall 24,CORE105, ,CORE,Design and Systems Thinking,3,Duong Phung, 
-Fall 24,CORE105, ,CORE,Design and Systems Thinking,4,Minh Doan, 
-Fall 24,CS101, ,E3,Computer Science I,1,Hoang Van,
-Fall 24,CS103, ,"E3, CORE",Programming for Data Science and Visualization,1,Dang Huynh,
-Fall 24,CS104, ,E3,Introduction to Computer Science,1,Trung Phan,
-Fall 24,CS203,ENG,E3,Computer Organization,1,Kien Truong,CORE105
-Fall 24,CS207, ,E3,Principles of Software Construction,1,Tung Nguyen,CS201
-Fall 24,CS211, ,E3,Operating Systems,1,Linh Huynh,"CS201, CS203"
-Fall 24,CS302, ,,Algorithms and Theory of Computing,1,Linh Huynh,"CS201, MATH202"
-Fall 24,CS304,,,Databases Systems,1,Tung Nguyen,CS201
-Fall 24,CS310,,,Web Development & Human-Computer Interaction,1,Hoang Van,CS201
-Fall 24,CS313, ,,Deep Learning for Artificial Intelligence,1,Dang Huynh,CS103 or CS208
-Fall 24,ECON101, ,E2,Principles of Economics 1,1,Hoang-Lan Nguyen, 
-Fall 24,ECON102, ,E2,Economic Methods,1,Hoang Khieu, 
-Fall 24,ECON103, ,E2,Principles of Economics 2,1,Hoang Khieu, 
-Fall 24,ECON203, ,E2,Macroeconomic Analysis,1,Xavier Bautista,ECON103
-Fall 24,ECON205, ,E2,Digital Marketing,1,Willem Smit,"ECON101, ECON103"
-Fall 24,ECON209, ,E2,Econometrics,1,Ngoc Phan,MATH105 or ECON102
-Fall 24,ECON213, ,E2,Financial Management,1,My Nguyen,ECON101 or ECON103
-Fall 24,ECON303, ,,Economics of Education,1,Hoang-Lan Nguyen,"ECON201, ECON209"
-Fall 24,ECON306, ,,Economic Development and Globalization,1,Ngoc Phan,"ECON201/ECON203, ECON209"
-Fall 24,ECON312, ,,International Finance,1,My Nguyen,ECON201/ECON203
-Fall 24,ECON313, ,,Economics of Consumption,1,Xavier Bautista,"ECON201/ECON203, ECON209"
-Fall 24,ENG102, ,E3,Engineering Exploration: Sink or Swim,1,Minh Doan,CORE105 is co-requisite
-Fall 24,ENG104, ,E3,"Sensors, Measurement and Analysis",1,Minh Nguyen, 
-Fall 24,ENG201,CS,E3,Product Development,1,Quan Le,CORE105
-Fall 24,ENG202,,E3,Intelligent Robot Studio: From Theory to Practice,1,Duong Phung,CORE105
-Fall 24,ENG308, ,,Real-time Embedded DSP Laboratory,1,Kien Truong,one 200-level Engineering course
-Fall 24,HIS103,VS,"E1, E2",Modern Southeast Asia,1,Nicolas Weber, 
-Fall 24,HIS150,,"E1, E2",Exploring the Past: Five Foods that Made the Modern World,1,Mark Frank, 
-Fall 24,HIS204,VS,"E1, E2",History of ASEAN,1,Hoang Vu, 
-Fall 24,HIS210,"SOCI, ECON, BPS","E1, E2",History of Capitalism and the Corporation,1,Elsa Costa,GH
-Fall 24,IS101, ,"required for IS, E3",Introductory Biology,1,Dung Nguyen,
-Fall 24,IS105, ,"required for IS, E3",General Chemistry,1,Trang Nguyen,
-Fall 24,IS107, ,"E3, STS, BPS",Sustainable Development: Science and Industries,1,Trang Nguyen,
-Fall 24,IS109,"SOCI, HIS",E3,Humans in the Biosphere,1,Jesse Hollister,
-Fall 24,IS203,PSY,E3,Principles of Neuroscience,1,Dung Nguyen,Introductory Biology (IS 101)
-Fall 24,IS211, ,E3,Organismal Diversity and Evolution,1,Jesse Hollister,Introductory Biology (IS101)
-Fall 24,IS310, ,E3,Fates and Transports of Atmospheric Pollutants,1,Phu Nguyen,Scientific Inquiry or Quantitative Reasoning
-Fall 24,IS311, ,,Medical Microbiology,1,Thu-Hoai Nguyen,Introductory Biology ( IS101)
-Fall 24,LIT105,GSS minor,E1,Introduction to Literary Studies: Foundations in Gender and Sexuality Studies,1,Jasmine An, 
-Fall 24,LIT212,PSY,E1,Literature and the Mind,1,Yen Vu,Global Humanities/ Intro to Psych / Intro to Lit
-Fall 24,LIT303,"AMS, VS",,"Film, Fiction & the making of Modern Vietnams",1,Yen Vu,Intro to Lit/ Intro to Visual Studies
-Fall 24,LIT313,"HIS, GSS",,"Gender, Violence and Law before 1800 ",1,Elizabeth (Izzy) Liendo,Intro to Lit and 1 200-level HIST or LIT course
-Fall 24,MATH101, ,E3,Calculus,1,Son Van, 
-Fall 24,MATH102, ,E3,Ideas of Math,1,Son Van, 
-Fall 24,MATH105, ,"E3, CORE",Introduction to Statistics,1,Tan Le, 
-Fall 24,MATH105, ,"E3, CORE",Introduction to Statistics,2,Hien Tran, 
-Fall 24,MATH205, ,E3,Probability,1,Linh Tran,MATH101
-Fall 24,MATH203, ,E3,Numerical analysis,1,Hieu,MATH103
-Fall 24,MATH204,,E3,Introduction to Quantitative Finance,1,Tan Le,MATH105
-Fall 24,MATH308,CS,,Statistical Learning,1,Son Nguyen,MATH205
-Fall 24,MATH302, ,,Abstract Algebra,1,Linh Tran,MATH103
-Fall 24,MUSC103,,,University Choir (2-credit),1,Zorana Ignjatovic,
-Fall 24,MUSC102,,,Music Appreciation (2-credit),1,Dana Difilippantonio,
-Fall 24,PSY101, ,E2,Introduction to Psychology,1,Thi-Lan Nguyen, 
-Fall 24,PSY203, ,E2,Developmental Psychology,1,Gareth Davey, 
-Fall 24,PSY204, ,E2,Personality Psychology,1,Nga Hoang,PSY101
-Fall 24,PSY205, ,E2,Abnormal Psychology,1,Matthew McDonald,PSY101
-Fall 24,PSY207, ,E2,Organizational Psychology,1,Thi-Lan Nguyen, 
-Fall 24,PSY302, ,,Counseling Psychology,1,Nga Hoang,"PSY203, PSY204, PSY205"
-Fall 24,PSY308, ,,Person-Centered Counseling,1,Nathan Gehlert, 
-Fall 24,PSY313,,,Applied Behavior Analysis for Early Childhood Development,1,Tony Louw,
-Fall 24,PSY410, ,,Psychology Practicum,1,Nathan Gehlert, 
-Fall 24,SOCI105,"PSY, SOCI",E2/ METHOD,Social Science Research Methods,1,Ethan Brown,None
-Fall 24,SOCI209, ,E2/ METHOD,Ethnographic Methods,1,Tram Luong,SOCI 102
-Fall 24,SOCI214,BPS,E2/ THEORY,Introduction to Political Science,1,Tobias Burgers,2nd year +
-Fall 24,SOCI220,BPS,E2,Business Communication,1,Janny Fritzen,None
-Fall 24,SOCI221,,E2/ THEORY,Introduction to International Relations,1,Damla CT,None
-Fall 24,SOCI308,STS,ADV,"Technology, Innovation and Military Conflict",1,Tobias Burgers,Ideally intro to STS
-Fall 24,SOCI309,GSS,ADV,The Anthropology of Sex,1,Elizabeth (Liz) Miles,3rd year +
-Fall 24,LS101, ,,Strategies for Academic Success (2-credit),1,Patrick Thoendel,
-Fall 24,SOCI111,BPS,E2,"Introduction to Business, Policy and Society ",1,Janny Fritzen,
-Fall 24,VS104, ,"E1, E2",Introduction to Comparative Politics: Bringing in Vietnam,1,Nguyen Thanh Trung, 
-Fall 24,VS106 (previously VS106a),LIT,"E1, E2",Cultural and Intellectual Foundation of Vietnamese Literary Chinese I,1,Van Phan, 
-Fall 24,VS214a,"HIS, SOCI","E1, E2",Developing Vietnam (in collaboration with Dartmouth College),1,Nguyen Nam + Hoang Vu,MVCS or 100-level course in majors
-Fall 24,VS215,SOCI,"E1, E2",Contending Theories of International Relations: A Comprehensive View of Vietnam and the World,1,Trung Nguyen, 
-Fall 24,VS214b,"HIS, SOCI","E1, E2",Developing Vietnam practicum (in collaboration with Dartmouth College),1,Nguyen Nam + Hoang Vu,200-level course in majors
-Fall 24,VS305,"HIS, PSY",,Capstone Seminar,1,Nicolas Weber,VS205 or HIS200
-Spring 25,ARTS101,,E1,Introduction to Visual Studies,2,Minh Trinh,CORE 101
-Spring 25,ARTS104,,E1,Introduction to Video and Film Production,2,ADJUNCT,ARTS 101
-Spring 25,ARTS105,,E1,Introduction to Film History & Theory,2,Linda Zhang,ARTS 101
-Spring 25,ARTS106,,E1,Dance and Performance Production,1,Alex Tu Nguyen,
-Spring 25,ARTS107,,E1,2D/3D Foundations,1,Richard Streitmatter-Tran,ARTS 101
-Spring 25,ARTS210,,E1,Digital Media Arts,1,ADJUNCT,ARTS 101; ARTS 107
-Spring 25,ARTS211, ,E1,"Alien, Uncanny, Strange: Themes in East Asian Film and Media",1,Linda Zhang,ARTS 101; ARTS 105
-Spring 25,ARTS212,,E1,Interdisciplinary Drawing,1,Richard Streitmatter-Tran,ARTS 112
-Spring 25,ARTS216,LIT,E1,Theater Writing,1,Tra Nguyen,ARTS 108
-Spring 25,ARTS303,,,Sound Art,1,Pamela Corey,ARTS 101; two 200-level ARTS courses
-Spring 25,ARTS309,,,Advanced Narrative Film Production,1,Minh Trinh,ARTS 101; ARTS 104
-Spring 25,ARTS313,SOCI,,Aesthetics and Violence,1,Tram Luong,ARTS 101; SOCI 102
-Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,1,Trung Nguyen,
-Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,2,Nicolas Weber,
-Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,3,Hoang Vu,
-Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,4,Pamela Corey,
-Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,5,Tram Luong,
-Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,6,Yen Vu,
-Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,7,Thi-Lan Nguyen,
-Spring 25,CORE104, ,CORE,Scientitic Inquiry,2,Jesse Hollister,None
-Spring 25,CORE105, ,CORE,Design and Systems Thinking,5,Kien Truong, 
-Spring 25,CORE105, ,CORE,Design and Systems Thinking,6,Minh Doan, 
-Spring 25,CORE105, ,CORE,Design and Systems Thinking,7,Minh Nguyen & Quan Le, 
-Spring 25,CORE105, ,CORE,Design and Systems Thinking,8,Kien Truong, 
-Spring 25,CORE105, ,CORE,Quantitative Reasoning,3,Trung Phan, 
-Spring 25,CORE105, ,CORE,Quantitative Reasoning,4,Xavier Bautista, 
-Spring 25,CS103, ,"E3, CORE",Programming for Data Science and Visualization,1,Dang Huynh,None
-Spring 25,CS201, ,E3,Computer Science II,1,Linh Huynh,CS101
-Spring 25,CS204,,E3,Introduction to AI,1,Tung Nguyen,CS201
-Spring 25,CS205, ,E3,Computational Social Media,1,Trung Phan, 
-Spring 25,CS212, ,E3,Programming Language Paradigms,1,Linh Huynh,CS201
-Spring 25,CS301, ,,Foundations of Software Engineering,1,Tung Nguyen,CS207
-Spring 25,CS306,,,Network & Computer Security,1,Hoang Van,Operating System
-Spring 25,CS311, ,,Advanced Deep Learning,1,Dang Huynh,Deep Learning
-Spring 25,CS312, ,,Natural Language Processing,1,Hoang Van,CS208 or Deep Learning or MATH308
-Spring 25,ECON101, ,E2,Principles of Economics 1,2,Hoang-Lan Nguyen, 
-Spring 25,ECON102, ,E2,Economic Methods,2,Hoang Khieu, 
-Spring 25,ECON103, ,E2,Principles of Economics 2,2,My Nguyen, 
-Spring 25,ECON201, ,E2,Microeconomic Analysis,1,Duong Le,ECON101
-Spring 25,ECON201, ,E2,Microeconomic Analysis,2,Duong Le,ECON101
-Spring 25,ECON203, ,E2,Macroeconomic Analysis,2,Xavier Bautista,ECON103
-Spring 25,ECON209, ,E2,Econometrics,2,Ngoc Phan,MATH105 or ECON102
-Spring 25,ECON213, ,E2,Financial Management,2,My Nguyen,ECON101 or ECON103
-Spring 25,ECON214, ,E2,Political Economy,1,Ngoc Phan,"ECON101/ECON103, ECON102"
-Spring 25,ECON302, ,,Economics of Inequality,1,Hoang Khieu,"ECON102/MATH105, ECON203, "
-Spring 25,ECON305,PSY,,Behavioural and Experimental Economics,1,Graeme Walker,ECON101
-Spring 25,ECON314, ,,Industrial Organization,1,Hoang-Lan Nguyen,"ECON101, ECON102/MATH105, ECON201"
-Spring 25,ENG105, ,,"Sense, Think, Act: Principle of Smart Systems ",1,Duong Phung,CORE105 is co-requisite
-Spring 25,ENG207, ,E3,Mechanical Design,1,Minh Doan,"CORE105, and any of ENG 100 level"
-Spring 25,ENG210, ,E3,Fundamental of Data Communcation,1,Quan Le,CORE105
-Spring 25,ENG301,CS,,Computer Vision,1,Duong Phung, 
-Spring 25,ENG310,,,Performance Evaluation Building,1,Minh Nguyen,CORE105
-Spring 25,ENG311, ,,Project Management,1,Minh Nguyen & Quan Le,"CORE105, ENG201"
-Spring 25,HIS102,,"E1, E2",Atlantic World,1,Elsa Costa,
-Spring 25,HIS104,"VS, EAS","E1, E2",Modern East Asia,2,Mark Frank,
-Spring 25,HIS200,,"E1, E2",Hands-On History,1,Elsa Costa,Exploring the Past
-Spring 25,HIS301,"VS, SOCI",,History of International Communism,1,Hoang Vu, 
-Spring 25,HIS216,"SOCI, BPS",,History for the Future,1,,
-Spring 25,HIS311,"SOCI, GSS, EAS",,Gender and Ethnicity in Modern East Asia,1,Mark Frank,Global Humanities
-Spring 25,IS205, ,E3,Organic Chemistry,1,Trang Nguyen,General Chemistry (IS105)
-Spring 25,IS212, ,E3,Cell Biology,1,Dung Nguyen,Introductory Biology (IS101)
-Spring 25,IS306, ,,Human Physiology,1,Dung Nguyen,Introductory Biology ( IS101) and one of the two following courses [Cell Biology (IS212) or Principles of Neuroscience (IS203)]
-Spring 25,IS312,MATH,,Biometry,1,Jesse Hollister,SI and Introductory Biology
-Spring 25,IS313, ,,Life Cycle Assessment,1,Trang Nguyen,(IS107) Sustainable Development: Science and Industries
-Spring 25,LIT199, ,,Intro to Creative Writing,1,Jasmine An, 
-Spring 25,LIT107, ,,Intro to Literature: Writing the Self,1,Yen Vu, 
-Spring 25,LIT201, ,E1,Critical Methods,1,Jasmine An,Global Humanities/ Intro to Lit
-Spring 25,LIT213, ,,Myths & Origin Stories,1,Elizabeth (Izzy) Liendo,Intro to Lit
-Spring 25,LIT314,,,Advanced Critical Theory,1,Elizabeth (Izzy) Liendo,Critical Methods (LIT 201) or equivalent
-Spring 25,LIT315,GSS,,Women's Labor,1,Magdala Jeudy,Intro to Lit and 1 200-level course
-Spring 25,MATH 311, ,,Research Seminar,1,co-teaching - Son Van,3rd year
-Spring 25,MATH103, ,E3,Linear Algebra,1,Linh Tran,
-Spring 25,MATH104, ,E3,Multivariable Calculus,1,Son Van,MATH101
-Spring 25,MATH105, ,"E3, CORE",Introduction to Statistics,3,Tan Le, 
-Spring 25,MATH105, ,"E3, CORE",Introduction to Statistics,4,Hien Tran,
-Spring 25,MATH201, ,E3,Differential Equations,1,TBC,MATH 101
-Spring 25,MATH202, ,E3,Discrete Mathematics,1,Linh Tran,MATH101 or MATH102 or MATH103 or MATH104 or MATH105
-Spring 25,MATH305,,,Stochastic Calculus,1,Tan Le,MATH205
-Spring 25,MATH312, ,,Topology and Measure Theory,1,Son Van,MATH 307
-Spring 25,MATH301, ,,Operational Research,1,TBC,
-Spring 25,PSY101, ,E2,Introduction to Psychology,1,Thi-Lan Nguyen, 
-Spring 25,PSY209, ,E2,The Art & Science of Wellbeing,1,Gareth Davey, 
-Spring 25,PSY214, ,,Family Psychology,1,Nga Hoang, 
-Spring 25,PSY215, ,,Mindfulness and Psychological Well-Being,1,ADJUNCT, 
-Spring 25,PSY301, ,,Applied Social Psychology,1,Matthew McDonald,"PSY101, SOCI105, PSY203"
-Spring 25,PSY305, ,,Cross Cultural Leadership & Management,1,Matthew McDonald,"PSY101, PSY207"
-Spring 25,PSY307, ,,Cognitive Behavioral Therapy,1,Nga Hoang,PSY302 (Can be taken the same semester with CBT)
-Spring 25,PSY309, ,,Health Psychology,1,Gareth Davey, 
-Spring 25,PSY310, ,,Environmental Psychology,1,Nathan Gehlert, 
-Spring 25,SOCI102, ,E2/ SURVEY,Social Inquiry,1,Ian Kalman,None
-Spring 25,SOCI105, ,E2/ METHOD,Social Science Research Methods,1,Ethan Brown,None
-Spring 25,SOCI202,"STS, AMS",E2,Digital Anthropology,1,Ian Kalman,2nd year +
-Spring 25,SOCI219,"PSY,GSS",E2/ THEORY,Love and Sex,1,Elizabeth (Liz) Miles,2nd year +
-Spring 25,SOCI222,PSY,,Quantitative Social Science,1,Ethan Brown,2nd year +; MATH105 or ECON102 or SOCI105
-Spring 25,SOCI317,EAS,,Postwar Japan Culture and Society,1,Elizabeth Miles,CORE courses
-Spring 25,SOCI318,BPS,,Media effects,1,Janny Fritzen,
-Spring 25,SOCI319,BPS,,Communication for Social Change,1,Janny Fritzen,
-Spring 25,SOCI320,"STS, EAS",,Risk and risk (governance) in Asia,1,Tobias Burgers,2nd year or above
-Spring 25,SOCI111, ,E2,"Introduction to Business, Policy, and Society ",1,Tobias Burgers,
-Spring 25,VS107,"HIS, SOCI",,"Gods, spirits, and heroes: Vietnamese spirituality in transition ",1,Nguyen Nam, 
-Spring 25,VS205, ,"E1, E2",Theory & Method in Vietnam Studies (previously: Intro to Vietnam Studies),1,Nicolas Weber,MVCS or 100-level course in majors
-Spring 25,VS206,LIT,"E1, E2",Cultural and Intellectual Foundation of Vietnamese Literary Chinese II,1,Van Phan,VS106
-Spring 25,VS302,SOCI,,Gender and Media,1,Le Phuong Linh,
-Spring 25,VS219,SOCI,,Beyond Borders: Migration in the age of global (im)mobilities,1,Le Phuong Linh,
-Spring 25,BPS101,BPS,,Intro to BPS,1,Tobias Burgers,
-Summer 25,ARTS107,,E1,2D/3D Foundations,1,ADJUNCT,ARTS 101
-Summer 25,ARTS213,,E1,Dance Creation to Performance,1,Alex Tu Nguyen,ARTS 106
-Summer 25,ARTS314,,,[Tentative: new design course],1,ADJUNCT,ARTS 101; ARTS 107
-Summer 25,PSY311, ,,Multicultural Psychology,1,Nathan Gehlert, 
+Semester,Course Code,Cross-listed,Category,Course Name,Session #,Faculty,Pre-requisite,Credits
+Fall 24,ARTS101,,E1,Introduction to Visual Studies,1,Tram Luong,CORE 101,4
+Fall 24,ARTS102,,E1,Introduction to Art History & Theory,1,Pamela Corey,ARTS 101,4
+Fall 24,ARTS104,,E1,Introduction to Video and Film Production,1,Minh Trinh,ARTS 101,4
+Fall 24,ARTS108,,E1,Introduction to Theater and Performance,1,Tra Nguyen,,4
+Fall 24,ARTS112,,E1,Basic Drawing,1,Richard Streitmatter-Tran,ARTS 101,4
+Fall 24,ARTS206,,E1,Principles of Acting,1,Nha Uyen,ARTS 101,4
+Fall 24,ARTS207,VS,E1,Visualizing Vietnam,1,Pamela Corey,ARTS 101,4
+Fall 24,ARTS215,,E1,Directing Workshop,1,Minh Trinh,ARTS 104,4
+Fall 24,ARTS305,,,Curating in Context,1,Arlette Q-A Tran,ARTS 101; two 200-level ARTS courses,4
+Fall 24,ARTS308,,,Projects in Sculpture,1,Richard Streitmatter-Tran,ARTS 107; ARTS 112,4
+Fall 24,CORE101,,CORE,Global Humanities,1,Mark Frank,,4
+Fall 24,CORE101,,CORE,Global Humanities,2,Matthew McDonald,,4
+Fall 24,CORE101,,CORE,Global Humanities,3,Elizabeth (Liz) Miles,,4
+Fall 24,CORE101,,CORE,Global Humanities,4,Jasmine An,,4
+Fall 24,CORE101,,CORE,Global Humanities,5,Elizabeth (Izzy) Liendo,,4
+Fall 24,CORE101,,CORE,Global Humanities,6,Elsa Costa,,4
+Fall 24,CORE101,,CORE,Global Humanities,7,Ian Kalman,,4
+Fall 24,CORE103,,CORE,Quantitative Reasoning,1,Trung Phan,,4
+Fall 24,CORE103,,CORE,Quantitative Reasoning,2,Ethan Brown,,4
+Fall 24,CORE104,,CORE,Scientific Inquiry,1,Gareth Davey,,4
+Fall 24,CORE105, ,CORE,Design and Systems Thinking,1,Quan Le, ,4
+Fall 24,CORE105, ,CORE,Design and Systems Thinking,2,Minh Nguyen, ,4
+Fall 24,CORE105, ,CORE,Design and Systems Thinking,3,Duong Phung, ,4
+Fall 24,CORE105, ,CORE,Design and Systems Thinking,4,Minh Doan, ,4
+Fall 24,CS101, ,E3,Computer Science I,1,Hoang Van,,4
+Fall 24,CS103, ,"E3, CORE",Programming for Data Science and Visualization,1,Dang Huynh,,4
+Fall 24,CS104, ,E3,Introduction to Computer Science,1,Trung Phan,,4
+Fall 24,CS203,ENG,E3,Computer Organization,1,Kien Truong,CORE105,4
+Fall 24,CS207, ,E3,Principles of Software Construction,1,Tung Nguyen,CS201,4
+Fall 24,CS211, ,E3,Operating Systems,1,Linh Huynh,"CS201, CS203",4
+Fall 24,CS302, ,,Algorithms and Theory of Computing,1,Linh Huynh,"CS201, MATH202",4
+Fall 24,CS304,,,Databases Systems,1,Tung Nguyen,CS201,4
+Fall 24,CS310,,,Web Development & Human-Computer Interaction,1,Hoang Van,CS201,4
+Fall 24,CS313, ,,Deep Learning for Artificial Intelligence,1,Dang Huynh,CS103 or CS208,4
+Fall 24,ECON101, ,E2,Principles of Economics 1,1,Hoang-Lan Nguyen, ,4
+Fall 24,ECON102, ,E2,Economic Methods,1,Hoang Khieu, ,4
+Fall 24,ECON103, ,E2,Principles of Economics 2,1,Hoang Khieu, ,4
+Fall 24,ECON203, ,E2,Macroeconomic Analysis,1,Xavier Bautista,ECON103,4
+Fall 24,ECON205, ,E2,Digital Marketing,1,Willem Smit,"ECON101, ECON103",4
+Fall 24,ECON209, ,E2,Econometrics,1,Ngoc Phan,MATH105 or ECON102,4
+Fall 24,ECON213, ,E2,Financial Management,1,My Nguyen,ECON101 or ECON103,4
+Fall 24,ECON303, ,,Economics of Education,1,Hoang-Lan Nguyen,"ECON201, ECON209",4
+Fall 24,ECON306, ,,Economic Development and Globalization,1,Ngoc Phan,"ECON201/ECON203, ECON209",4
+Fall 24,ECON312, ,,International Finance,1,My Nguyen,ECON201/ECON203,4
+Fall 24,ECON313, ,,Economics of Consumption,1,Xavier Bautista,"ECON201/ECON203, ECON209",4
+Fall 24,ENG102, ,E3,Engineering Exploration: Sink or Swim,1,Minh Doan,CORE105 is co-requisite,4
+Fall 24,ENG104, ,E3,"Sensors, Measurement and Analysis",1,Minh Nguyen, ,4
+Fall 24,ENG201,CS,E3,Product Development,1,Quan Le,CORE105,4
+Fall 24,ENG202,,E3,Intelligent Robot Studio: From Theory to Practice,1,Duong Phung,CORE105,4
+Fall 24,ENG308, ,,Real-time Embedded DSP Laboratory,1,Kien Truong,one 200-level Engineering course,4
+Fall 24,HIS103,VS,"E1, E2",Modern Southeast Asia,1,Nicolas Weber, ,4
+Fall 24,HIS150,,"E1, E2",Exploring the Past: Five Foods that Made the Modern World,1,Mark Frank, ,4
+Fall 24,HIS204,VS,"E1, E2",History of ASEAN,1,Hoang Vu, ,4
+Fall 24,HIS210,"SOCI, ECON, BPS","E1, E2",History of Capitalism and the Corporation,1,Elsa Costa,GH,4
+Fall 24,IS101, ,"required for IS, E3",Introductory Biology,1,Dung Nguyen,,4
+Fall 24,IS105, ,"required for IS, E3",General Chemistry,1,Trang Nguyen,,4
+Fall 24,IS107, ,"E3, STS, BPS",Sustainable Development: Science and Industries,1,Trang Nguyen,,4
+Fall 24,IS109,"SOCI, HIS",E3,Humans in the Biosphere,1,Jesse Hollister,,4
+Fall 24,IS203,PSY,E3,Principles of Neuroscience,1,Dung Nguyen,Introductory Biology (IS 101),4
+Fall 24,IS211, ,E3,Organismal Diversity and Evolution,1,Jesse Hollister,Introductory Biology (IS101),4
+Fall 24,IS310, ,E3,Fates and Transports of Atmospheric Pollutants,1,Phu Nguyen,Scientific Inquiry or Quantitative Reasoning,4
+Fall 24,IS311, ,,Medical Microbiology,1,Thu-Hoai Nguyen,Introductory Biology ( IS101),4
+Fall 24,LIT105,GSS minor,E1,Introduction to Literary Studies: Foundations in Gender and Sexuality Studies,1,Jasmine An, ,4
+Fall 24,LIT212,PSY,E1,Literature and the Mind,1,Yen Vu,Global Humanities/ Intro to Psych / Intro to Lit,4
+Fall 24,LIT303,"AMS, VS",,"Film, Fiction & the making of Modern Vietnams",1,Yen Vu,Intro to Lit/ Intro to Visual Studies,4
+Fall 24,LIT313,"HIS, GSS",,"Gender, Violence and Law before 1800 ",1,Elizabeth (Izzy) Liendo,Intro to Lit and 1 200-level HIST or LIT course,4
+Fall 24,MATH101, ,E3,Calculus,1,Son Van, ,4
+Fall 24,MATH102, ,E3,Ideas of Math,1,Son Van, ,4
+Fall 24,MATH105, ,"E3, CORE",Introduction to Statistics,1,Tan Le, ,4
+Fall 24,MATH105, ,"E3, CORE",Introduction to Statistics,2,Hien Tran, ,4
+Fall 24,MATH205, ,E3,Probability,1,Linh Tran,MATH101,4
+Fall 24,MATH203, ,E3,Numerical analysis,1,Hieu,MATH103,4
+Fall 24,MATH204,,E3,Introduction to Quantitative Finance,1,Tan Le,MATH105,4
+Fall 24,MATH308,CS,,Statistical Learning,1,Son Nguyen,MATH205,4
+Fall 24,MATH302, ,,Abstract Algebra,1,Linh Tran,MATH103,4
+Fall 24,MUSC103,,,University Choir ,1,Zorana Ignjatovic,,2
+Fall 24,MUSC102,,,Music Appreciation ,1,Dana Difilippantonio,,2
+Fall 24,PSY101, ,E2,Introduction to Psychology,1,Thi-Lan Nguyen, ,4
+Fall 24,PSY203, ,E2,Developmental Psychology,1,Gareth Davey, ,4
+Fall 24,PSY204, ,E2,Personality Psychology,1,Nga Hoang,PSY101,4
+Fall 24,PSY205, ,E2,Abnormal Psychology,1,Matthew McDonald,PSY101,4
+Fall 24,PSY207, ,E2,Organizational Psychology,1,Thi-Lan Nguyen, ,4
+Fall 24,PSY302, ,,Counseling Psychology,1,Nga Hoang,"PSY203, PSY204, PSY205",4
+Fall 24,PSY308, ,,Person-Centered Counseling,1,Nathan Gehlert, ,4
+Fall 24,PSY313,,,Applied Behavior Analysis for Early Childhood Development,1,Tony Louw,,4
+Fall 24,PSY410, ,,Psychology Practicum,1,Nathan Gehlert, ,4
+Fall 24,SOCI105,"PSY, SOCI",E2/ METHOD,Social Science Research Methods,1,Ethan Brown,None,4
+Fall 24,SOCI209, ,E2/ METHOD,Ethnographic Methods,1,Tram Luong,SOCI 102,4
+Fall 24,SOCI214,BPS,E2/ THEORY,Introduction to Political Science,1,Tobias Burgers,2nd year +,4
+Fall 24,SOCI220,BPS,E2,Business Communication,1,Janny Fritzen,None,4
+Fall 24,SOCI221,,E2/ THEORY,Introduction to International Relations,1,Damla CT,None,4
+Fall 24,SOCI308,STS,ADV,"Technology, Innovation and Military Conflict",1,Tobias Burgers,Ideally intro to STS,4
+Fall 24,SOCI309,GSS,ADV,The Anthropology of Sex,1,Elizabeth (Liz) Miles,3rd year +,4
+Fall 24,LS101, ,,Strategies for Academic Success (2-credit),1,Patrick Thoendel,,4
+Fall 24,SOCI111,BPS,E2,"Introduction to Business, Policy and Society ",1,Janny Fritzen,,4
+Fall 24,VS104, ,"E1, E2",Introduction to Comparative Politics: Bringing in Vietnam,1,Nguyen Thanh Trung, ,4
+Fall 24,VS106 (previously VS106a),LIT,"E1, E2",Cultural and Intellectual Foundation of Vietnamese Literary Chinese I,1,Van Phan, ,4
+Fall 24,VS214a,"HIS, SOCI","E1, E2",Developing Vietnam (in collaboration with Dartmouth College),1,Nguyen Nam + Hoang Vu,MVCS or 100-level course in majors,4
+Fall 24,VS215,SOCI,"E1, E2",Contending Theories of International Relations: A Comprehensive View of Vietnam and the World,1,Trung Nguyen, ,4
+Fall 24,VS214b,"HIS, SOCI","E1, E2",Developing Vietnam practicum (in collaboration with Dartmouth College),1,Nguyen Nam + Hoang Vu,200-level course in majors,4
+Fall 24,VS305,"HIS, PSY",,Capstone Seminar,1,Nicolas Weber,VS205 or HIS200,4
+Spring 25,ARTS101,,E1,Introduction to Visual Studies,2,Minh Trinh,CORE 101,4
+Spring 25,ARTS104,,E1,Introduction to Video and Film Production,2,ADJUNCT,ARTS 101,4
+Spring 25,ARTS105,,E1,Introduction to Film History & Theory,2,Linda Zhang,ARTS 101,4
+Spring 25,ARTS106,,E1,Dance and Performance Production,1,Alex Tu Nguyen,,4
+Spring 25,ARTS107,,E1,2D/3D Foundations,1,Richard Streitmatter-Tran,ARTS 101,4
+Spring 25,ARTS210,,E1,Digital Media Arts,1,ADJUNCT,ARTS 101; ARTS 107,4
+Spring 25,ARTS211, ,E1,"Alien, Uncanny, Strange: Themes in East Asian Film and Media",1,Linda Zhang,ARTS 101; ARTS 105,4
+Spring 25,ARTS212,,E1,Interdisciplinary Drawing,1,Richard Streitmatter-Tran,ARTS 112,4
+Spring 25,ARTS216,LIT,E1,Theater Writing,1,Tra Nguyen,ARTS 108,4
+Spring 25,ARTS303,,,Sound Art,1,Pamela Corey,ARTS 101; two 200-level ARTS courses,4
+Spring 25,ARTS309,,,Advanced Narrative Film Production,1,Minh Trinh,ARTS 101; ARTS 104,4
+Spring 25,ARTS313,SOCI,,Aesthetics and Violence,1,Tram Luong,ARTS 101; SOCI 102,4
+Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,1,Trung Nguyen,,4
+Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,2,Nicolas Weber,,4
+Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,3,Hoang Vu,,4
+Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,4,Pamela Corey,,4
+Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,5,Tram Luong,,4
+Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,6,Yen Vu,,4
+Spring 25,CORE102,,CORE,Modern Vietnamese Culture & Society??,7,Thi-Lan Nguyen,,4
+Spring 25,CORE104, ,CORE,Scientitic Inquiry,2,Jesse Hollister,None,4
+Spring 25,CORE105, ,CORE,Design and Systems Thinking,5,Kien Truong, ,4
+Spring 25,CORE105, ,CORE,Design and Systems Thinking,6,Minh Doan, ,4
+Spring 25,CORE105, ,CORE,Design and Systems Thinking,7,Minh Nguyen & Quan Le, ,4
+Spring 25,CORE105, ,CORE,Design and Systems Thinking,8,Kien Truong, ,4
+Spring 25,CORE105, ,CORE,Quantitative Reasoning,3,Trung Phan, ,4
+Spring 25,CORE105, ,CORE,Quantitative Reasoning,4,Xavier Bautista, ,4
+Spring 25,CS103, ,"E3, CORE",Programming for Data Science and Visualization,1,Dang Huynh,None,4
+Spring 25,CS201, ,E3,Computer Science II,1,Linh Huynh,CS101,4
+Spring 25,CS204,,E3,Introduction to AI,1,Tung Nguyen,CS201,4
+Spring 25,CS205, ,E3,Computational Social Media,1,Trung Phan, ,4
+Spring 25,CS212, ,E3,Programming Language Paradigms,1,Linh Huynh,CS201,4
+Spring 25,CS301, ,,Foundations of Software Engineering,1,Tung Nguyen,CS207,4
+Spring 25,CS306,,,Network & Computer Security,1,Hoang Van,Operating System,4
+Spring 25,CS311, ,,Advanced Deep Learning,1,Dang Huynh,Deep Learning,4
+Spring 25,CS312, ,,Natural Language Processing,1,Hoang Van,CS208 or Deep Learning or MATH308,4
+Spring 25,ECON101, ,E2,Principles of Economics 1,2,Hoang-Lan Nguyen, ,4
+Spring 25,ECON102, ,E2,Economic Methods,2,Hoang Khieu, ,4
+Spring 25,ECON103, ,E2,Principles of Economics 2,2,My Nguyen, ,4
+Spring 25,ECON201, ,E2,Microeconomic Analysis,1,Duong Le,ECON101,4
+Spring 25,ECON201, ,E2,Microeconomic Analysis,2,Duong Le,ECON101,4
+Spring 25,ECON203, ,E2,Macroeconomic Analysis,2,Xavier Bautista,ECON103,4
+Spring 25,ECON209, ,E2,Econometrics,2,Ngoc Phan,MATH105 or ECON102,4
+Spring 25,ECON213, ,E2,Financial Management,2,My Nguyen,ECON101 or ECON103,4
+Spring 25,ECON214, ,E2,Political Economy,1,Ngoc Phan,"ECON101/ECON103, ECON102",4
+Spring 25,ECON302, ,,Economics of Inequality,1,Hoang Khieu,"ECON102/MATH105, ECON203, ",4
+Spring 25,ECON305,PSY,,Behavioural and Experimental Economics,1,Graeme Walker,ECON101,4
+Spring 25,ECON314, ,,Industrial Organization,1,Hoang-Lan Nguyen,"ECON101, ECON102/MATH105, ECON201",4
+Spring 25,ENG105, ,,"Sense, Think, Act: Principle of Smart Systems ",1,Duong Phung,CORE105 is co-requisite,4
+Spring 25,ENG207, ,E3,Mechanical Design,1,Minh Doan,"CORE105, and any of ENG 100 level",4
+Spring 25,ENG210, ,E3,Fundamental of Data Communcation,1,Quan Le,CORE105,4
+Spring 25,ENG301,CS,,Computer Vision,1,Duong Phung, ,4
+Spring 25,ENG310,,,Performance Evaluation Building,1,Minh Nguyen,CORE105,4
+Spring 25,ENG311, ,,Project Management,1,Minh Nguyen & Quan Le,"CORE105, ENG201",4
+Spring 25,HIS102,,"E1, E2",Atlantic World,1,Elsa Costa,,4
+Spring 25,HIS104,"VS, EAS","E1, E2",Modern East Asia,2,Mark Frank,,4
+Spring 25,HIS200,,"E1, E2",Hands-On History,1,Elsa Costa,Exploring the Past,4
+Spring 25,HIS301,"VS, SOCI",,History of International Communism,1,Hoang Vu, ,4
+Spring 25,HIS216,"SOCI, BPS",,History for the Future,1,,,4
+Spring 25,HIS311,"SOCI, GSS, EAS",,Gender and Ethnicity in Modern East Asia,1,Mark Frank,Global Humanities,4
+Spring 25,IS205, ,E3,Organic Chemistry,1,Trang Nguyen,General Chemistry (IS105),4
+Spring 25,IS212, ,E3,Cell Biology,1,Dung Nguyen,Introductory Biology (IS101),4
+Spring 25,IS306, ,,Human Physiology,1,Dung Nguyen,Introductory Biology ( IS101) and one of the two following courses [Cell Biology (IS212) or Principles of Neuroscience (IS203)],4
+Spring 25,IS312,MATH,,Biometry,1,Jesse Hollister,SI and Introductory Biology,4
+Spring 25,IS313, ,,Life Cycle Assessment,1,Trang Nguyen,(IS107) Sustainable Development: Science and Industries,4
+Spring 25,LIT199, ,,Intro to Creative Writing,1,Jasmine An, ,4
+Spring 25,LIT107, ,,Intro to Literature: Writing the Self,1,Yen Vu, ,4
+Spring 25,LIT201, ,E1,Critical Methods,1,Jasmine An,Global Humanities/ Intro to Lit,4
+Spring 25,LIT213, ,,Myths & Origin Stories,1,Elizabeth (Izzy) Liendo,Intro to Lit,4
+Spring 25,LIT314,,,Advanced Critical Theory,1,Elizabeth (Izzy) Liendo,Critical Methods (LIT 201) or equivalent,4
+Spring 25,LIT315,GSS,,Women's Labor,1,Magdala Jeudy,Intro to Lit and 1 200-level course,4
+Spring 25,MATH 311, ,,Research Seminar,1,co-teaching - Son Van,3rd year,4
+Spring 25,MATH103, ,E3,Linear Algebra,1,Linh Tran,,4
+Spring 25,MATH104, ,E3,Multivariable Calculus,1,Son Van,MATH101,4
+Spring 25,MATH105, ,"E3, CORE",Introduction to Statistics,3,Tan Le, ,4
+Spring 25,MATH105, ,"E3, CORE",Introduction to Statistics,4,Hien Tran,,4
+Spring 25,MATH201, ,E3,Differential Equations,1,TBC,MATH 101,4
+Spring 25,MATH202, ,E3,Discrete Mathematics,1,Linh Tran,MATH101 or MATH102 or MATH103 or MATH104 or MATH105,4
+Spring 25,MATH305,,,Stochastic Calculus,1,Tan Le,MATH205,4
+Spring 25,MATH312, ,,Topology and Measure Theory,1,Son Van,MATH 307,4
+Spring 25,MATH301, ,,Operational Research,1,TBC,,4
+Spring 25,PSY101, ,E2,Introduction to Psychology,1,Thi-Lan Nguyen, ,4
+Spring 25,PSY209, ,E2,The Art & Science of Wellbeing,1,Gareth Davey, ,4
+Spring 25,PSY214, ,,Family Psychology,1,Nga Hoang, ,4
+Spring 25,PSY215, ,,Mindfulness and Psychological Well-Being,1,ADJUNCT, ,4
+Spring 25,PSY301, ,,Applied Social Psychology,1,Matthew McDonald,"PSY101, SOCI105, PSY203",4
+Spring 25,PSY305, ,,Cross Cultural Leadership & Management,1,Matthew McDonald,"PSY101, PSY207",4
+Spring 25,PSY307, ,,Cognitive Behavioral Therapy,1,Nga Hoang,PSY302 (Can be taken the same semester with CBT),4
+Spring 25,PSY309, ,,Health Psychology,1,Gareth Davey, ,4
+Spring 25,PSY310, ,,Environmental Psychology,1,Nathan Gehlert, ,4
+Spring 25,SOCI102, ,E2/ SURVEY,Social Inquiry,1,Ian Kalman,None,4
+Spring 25,SOCI105, ,E2/ METHOD,Social Science Research Methods,1,Ethan Brown,None,4
+Spring 25,SOCI202,"STS, AMS",E2,Digital Anthropology,1,Ian Kalman,2nd year +,4
+Spring 25,SOCI219,"PSY,GSS",E2/ THEORY,Love and Sex,1,Elizabeth (Liz) Miles,2nd year +,4
+Spring 25,SOCI222,PSY,,Quantitative Social Science,1,Ethan Brown,2nd year +; MATH105 or ECON102 or SOCI105,4
+Spring 25,SOCI317,EAS,,Postwar Japan Culture and Society,1,Elizabeth Miles,CORE courses,4
+Spring 25,SOCI318,BPS,,Media effects,1,Janny Fritzen,,4
+Spring 25,SOCI319,BPS,,Communication for Social Change,1,Janny Fritzen,,4
+Spring 25,SOCI320,"STS, EAS",,Risk and risk (governance) in Asia,1,Tobias Burgers,2nd year or above,4
+Spring 25,SOCI111, ,E2,"Introduction to Business, Policy, and Society ",1,Tobias Burgers,,4
+Spring 25,VS107,"HIS, SOCI",,"Gods, spirits, and heroes: Vietnamese spirituality in transition ",1,Nguyen Nam, ,4
+Spring 25,VS205, ,"E1, E2",Theory & Method in Vietnam Studies (previously: Intro to Vietnam Studies),1,Nicolas Weber,MVCS or 100-level course in majors,4
+Spring 25,VS206,LIT,"E1, E2",Cultural and Intellectual Foundation of Vietnamese Literary Chinese II,1,Van Phan,VS106,4
+Spring 25,VS302,SOCI,,Gender and Media,1,Le Phuong Linh,,4
+Spring 25,VS219,SOCI,,Beyond Borders: Migration in the age of global (im)mobilities,1,Le Phuong Linh,,4
+Spring 25,BPS101,BPS,,Intro to BPS,1,Tobias Burgers,,4
+Summer 25,ARTS107,,E1,2D/3D Foundations,1,ADJUNCT,ARTS 101,4
+Summer 25,ARTS213,,E1,Dance Creation to Performance,1,Alex Tu Nguyen,ARTS 106,4
+Summer 25,ARTS314,,,[Tentative: new design course],1,ADJUNCT,ARTS 101; ARTS 107,4
+Summer 25,PSY311, ,,Multicultural Psychology,1,Nathan Gehlert, ,4
