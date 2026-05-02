@@ -4,7 +4,7 @@ from datetime import datetime
 
 BASE_DIR = os.path.dirname(__file__)
 DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'datasets', 'fuv_data.db'))
-current_semester = 'Fall 2026'  
+current_semester = 'Spring 2026'  
 current_course_offerings = 'course_2526'
 
 def eligible_check(data):
@@ -40,7 +40,7 @@ def check_course_availability(courses):
             result.append(course)
     con.close()
     if result:
-        return datetime.strptime(result[0], "%Y-%m-%d").date()
+        return result
     else:
         return None
 
@@ -58,7 +58,7 @@ def load_deadline(current_semester):
     con.close()
     
     if result:
-        return result[0]
+        return datetime.strptime(result[0], "%Y-%m-%d").date()
     else:
         return None
 
@@ -113,8 +113,9 @@ def load_credits_required(courses):
             FROM {current_course_offerings} 
             WHERE course_code = ? OR course_name = ?
         ''', (course, course))
-    
-        result.append(cur.fetchone()[0])
+        row = cur.fetchone()
+        if row is not None:
+            result.append(row[0])
     con.close()
     
     if result:
@@ -127,7 +128,7 @@ def load_credits_required(courses):
 if __name__ == "__main__":
     data = {
         'student_id': 25372,
-        'course_code': ['CS101', 'CS103'],
+        'course_code': ['CS101', 'CS400'],
         'reason': 'Fulfill graduation requirements',
         'plan': 'Spend extra time on coursework and seek support from instructor and Academic Affairs when needed.'
     }
