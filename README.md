@@ -29,3 +29,26 @@ python API_request.py
   "plan": null
 }
 ```
+
+## Backend 
+### Datasets
+Database is stored using SQLite3. To view database: 
+```bash
+sqlite3 fuv_data.db
+.tables 
+```
+
+View script to create SQL database: ``` script.sql ``` 
+
+### Logic Handler
+Function ```check_eligibility.py``` load data from ```fuv_data.db``` and check students' elegibility for enrolling in 5 courses upon receiving request. 
+
+1. Eligibility criteria: 
+
+- Check whether requested courses are available in the current semester. 
+- Check whether request is sent before the deadline.
+- Check whether student has enough credits for the 5 requested courses. 
+
+2. Load data: request deadline, course credits, student data. 
+
+
