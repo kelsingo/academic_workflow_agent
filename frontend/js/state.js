@@ -1,5 +1,5 @@
 // =============================================================
-// state.js — Global application state
+// state.js
 // Single source of truth shared across all JS modules.
 // Do not import browser APIs here — just plain data.
 // =============================================================

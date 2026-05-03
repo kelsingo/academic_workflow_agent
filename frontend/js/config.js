@@ -1,10 +1,9 @@
 // =============================================================
 // config.js — Central configuration
-// Change API_BASE to your deployed backend URL when ready.
 // =============================================================
 
 const CONFIG = {
-  // ── STEP 2: Connect UI ↔ Backend ─────────────────────────────
+  // ── STEP 2: Connect UI - Backend ─────────────────────────────
   // TODO: Replace with your real FastAPI URL
   API_BASE: 'http://localhost:8000',
 
@@ -18,8 +17,8 @@ const CONFIG = {
   // Mock student data — replace with real login session (Step 1)
   // TODO: pull this from auth session instead
   MOCK_STUDENT: {
-    student_name:  'Nguyen Van A',
-    student_id:    '220110',
-    email_address: 'a.nguyen@student.fulbright.edu.vn',
+    student_name:  'Phan Thi Son',
+    student_id:    25418,     
+    email_address: 'son.phan.25418@student.fulbright.edu.vn',
   },
 };

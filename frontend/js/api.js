@@ -8,14 +8,15 @@
 
 
 // ── STEP 3: Student submits request ──────────────────────────
-// Called by: chat.js → after eligibility animation passes
+// Called by: chat.js → after LLM extract passes
 // Backend endpoint: POST /api/submit
 // Returns: { request_id, status, deadline }
-async function apiSubmitRequest(student, courses, reason, plan) {
+// Note: backend looks up full student info from DB using student_id
+async function apiSubmitRequest(student_id, courses, reason, plan) {
   const resp = await fetch(`${CONFIG.API_BASE}/api/submit`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ student, courses, reason, plan }),
+    body: JSON.stringify({ student_id, courses, reason, plan }),
   });
   if (!resp.ok) throw new Error(`Submit failed: ${resp.status}`);
   return resp.json();
@@ -42,11 +43,3 @@ async function apiListRequests() {
   if (!resp.ok) throw new Error('List failed');
   return resp.json();
 }
-
-
-// ── NOTE: The following are backend-only — no frontend call needed ──
-//
-// POST /api/advisor-reply   (Step 6 — triggered by email webhook, not UI)
-// POST /api/registrar-reply (Step 7 — triggered by email webhook, not UI)
-//
-// The frontend just polls /api/status to learn about those decisions.

@@ -29,44 +29,22 @@ frontend/
 
 ## Step-by-Step Guide
 
-### Step 2 — Connect UI to Backend (Khue + Ngan)
+### Step 2 — Connect UI to Backend
 1. Open `js/config.js`
 2. Change `API_BASE` to your FastAPI server URL (e.g. `http://localhost:8000`)
 3. Test: open browser console, run `apiListRequests()` — should return `[]`
 
 ---
 
-### Step 3 — Student Submit (An)
+### Step 3 — Student Submit
 The entry point is `handleCollecting()` in `chat.js`.
 
 Currently uses **regex** to parse the student's text. When Thai An's backend
 LLM extraction endpoint is ready, replace the regex block with:
 
-```javascript
-// ── REPLACE THIS BLOCK in handleCollecting() ──────────────────
-// OLD (regex):
-const courseMatch = text.match(...);
-const courses = courseMatch ? ... : [];
-
-// NEW (LLM endpoint — Step 3a):
-const extracted = await fetch(`${CONFIG.API_BASE}/api/extract`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ text }),
-}).then(r => r.json());
-
-// extracted = { courses, reason, plan, is_valid, errors }
-
-if (!extracted.is_valid) {
-  await agentReply(`⚠️ ${extracted.errors[0]}`);
-  return;
-}
-const { courses, reason, plan } = extracted;
-```
-
 ---
 
-### Step 4 — Create Request in Database (Khue)
+### Step 4 — Create Request in Database
 `submitToBackend()` in `chat.js` already calls `POST /api/submit`.
 When your database is ready on the backend, no frontend changes needed —
 just make sure the backend saves the request and returns:
@@ -76,12 +54,12 @@ just make sure the backend saves the request and returns:
 
 ---
 
-### Step 5 — Send Email to Advisor (Ngan)
-This is fully handled by (`send_email.py`).
+### Step 5 — Send Email to Advisor
+This is handled by (`send_mail.py`).
 
 ---
 
-### Step 6 — Advisor Reply (Ngan)
+### Step 6 — Advisor Reply 
 When the advisor replies and the backend processes it:
 1. Backend updates `status` to `pending_registrar` or `rejected`
 2. Backend sets `notify_push: true` in the status response
@@ -98,7 +76,6 @@ When the advisor replies and the backend processes it:
 
 ### Step 7 — Registrar Reply
 Same pattern as Step 6 — handled by `handleRegistrarWait()` in `chat.js`.
-No changes needed beyond what's already there.
 
 ---
 

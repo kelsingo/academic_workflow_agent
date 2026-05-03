@@ -95,69 +95,85 @@ async function handleIdle(text, lower) {
 
 
 // ── STEP 3: COLLECTING student input ─────────────────────────
-//
-// TODO:
-//   Replace the regex parsing here with a call to your LLM extraction endpoint:
-//   POST /api/extract  →  { courses, reason, plan, is_valid, errors }
-//   If is_valid=false, show errors[0] as the error message below.
+// Calls POST /api/extract (extract.py) which uses Gemini LLM to parse
+// the student's free-text and validates course IDs against the database.
 async function handleCollecting(text, lower) {
-  // ── Parse student input (currently regex — swap for LLM API call) ──
-  const courseMatch = text.match(/(?:course[_ ]?ids?:?\s*)([A-Z0-9,\s]+?)(?:\||reason|plan|$)/i);
-  const reasonMatch = text.match(/reason:?\s*([^|]+?)(?:\||plan|$)/i);
-  const planMatch   = text.match(/plan:?\s*([^|]+?)$/i);
-  const courses     = courseMatch ? courseMatch[1].trim().split(/[\s,]+/).filter(c => c.length > 2) : [];
+  STATE.step = 'checking';
+  await agentReply(`Got it! Let me extract your request details…`, 400);
 
-  if (courses.length < 1) {
-    // ── STEP 3b: course not found in database → ask to re-enter ──
-    await agentReply(
-      `I couldn't detect your course IDs. Please use the format:<br>` +
-      `<em>"Course IDs: CS101, CS204 | Reason: ... | Plan: ..."</em>`
-    );
+  // ── Step 3a: Call LLM extraction endpoint ────────────────────
+  let extracted;
+  try {
+    const resp = await fetch(`${CONFIG.API_BASE}/api/extract`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        text,
+        student_id: STATE.student.student_id,
+      }),
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    extracted = await resp.json();
+  } catch (e) {
+    console.warn('[Extract] API call failed:', e.message);
+    // Fallback to regex if backend is offline (demo mode)
+    extracted = _regexFallback(text);
+  }
+
+  // ── Step 3b: Handle validation errors from backend ───────────
+  // Errors include: missing fields, course not in DB, too many courses
+  if (!extracted.is_valid) {
+    STATE.step = 'collecting';
+    const errorMsg = extracted.errors?.[0] || 'Please check your input and try again.';
+    await agentReply(`⚠️ ${errorMsg}<br><br>Please revise and re-enter your request.`, 500);
     return;
   }
 
-  const reason = reasonMatch ? reasonMatch[1].trim() : 'Not specified';
-  const plan   = planMatch   ? planMatch[1].trim()   : 'Not specified';
+  // ── All good: store and proceed ──────────────────────────────
+  STATE._collected = {
+    courses: extracted.courses,
+    reason:  extracted.reason  || 'Not specified',
+    plan:    extracted.plan    || 'Not specified',
+  };
 
-  // Store parsed data for use in next step
-  STATE._collected = { courses, reason, plan };
-
-  STATE.step = 'checking';
-  await agentReply(`Got it! Running eligibility checks for <strong>${courses.length}</strong> courses…`, 500);
-
-  // ── STEP 3 UI: Animated eligibility display ──────────────────
-  // Note: Real eligibility check is done on the backend.
-  // This animation is UI-only. If backend returns an error (Step 3c),
-  // call agentReply() with the error and reset STATE.step = 'collecting'.
+  // ── Step 3 UI: Animated eligibility display ──────────────────
+  // Visual only — real eligibility check runs inside /api/submit (Step 4)
   await runEligibilityAnimation();
   await new Promise(r => setTimeout(r, 400));
   await agentReply(`<span class="sbadge ok">✅ Eligible</span> All checks passed! Submitting your request…`, 600);
 
-  // ── STEP 3 → STEP 4: Submit to backend ───────────────────────
-  await submitToBackend(courses, reason, plan);
+  // ── Step 3 → Step 4: Submit to backend ───────────────────────
+  await submitToBackend(extracted.courses, extracted.reason, extracted.plan);
+}
+
+// Regex fallback used when backend is offline (demo mode only)
+function _regexFallback(text) {
+  const courseMatch = text.match(/(?:course[_ ]?ids?:?\s*)([A-Z0-9,\s]+?)(?:\||reason|plan|$)/i);
+  const reasonMatch = text.match(/reason:?\s*([^|]+?)(?:\||plan|$)/i);
+  const planMatch   = text.match(/plan:?\s*([^|]+?)$/i);
+  const courses     = courseMatch ? courseMatch[1].trim().split(/[\s,]+/).filter(c => c.length > 2) : [];
+  if (courses.length < 1) return { is_valid: false, courses: [], errors: ['Could not detect course IDs. Please use the format: "Course IDs: CS101, CS204 | Reason: ... | Plan: ..."'] };
+  return { is_valid: true, courses, reason: reasonMatch?.[1]?.trim() || 'Not specified', plan: planMatch?.[1]?.trim() || 'Not specified', errors: [] };
 }
 
 
 // ── STEP 4: Submit request to backend + start tracking ────────
-//
-// Calls POST /api/submit.
-// On success: saves to localStorage, starts polling, shows tracker.
-// On failure: falls back to demo mode with a MOCK request ID.
+// Calls POST /api/submit which runs eligibility check, saves to DB,
+// and sends the advisor email (Steps 4 + 5).
 async function submitToBackend(courses, reason, plan) {
   STATE.step = 'advisor_wait';
 
   try {
-    const data = await apiSubmitRequest(STATE.student, courses, reason, plan);
+    const data = await apiSubmitRequest(
+      STATE.student.student_id,   // backend looks up full student info from DB
+      courses, reason, plan
+    );
 
-    // ── STEP 4: Save request to localStorage ──────────────────
     const saved = { ...data, student: STATE.student };
     storageSaveRequest(saved);
     updateBanner(saved);
-
-    // ── STEP 8: Start polling for status changes ───────────────
     startPolling(data.request_id);
 
-    // ── STEP 5: Email has been sent (backend confirms) ─────────
     await agentReply(
       `<strong>Request submitted!</strong> Your advisor has been notified via email with a 48-hour deadline.<br><br>` +
       `<span class="deadline-pill">⏰ Advisor deadline: 48 hours</span>` +
@@ -165,15 +181,27 @@ async function submitToBackend(courses, reason, plan) {
       700
     );
 
-    // Request browser notification permission (Step 8)
     await requestNotifPermission();
     await agentReply(
-      `🔔 You'll receive a <strong>push notification</strong> and an <strong>email</strong> when your advisor responds — even if you close this page.`,
+      `You'll receive a <strong>push notification</strong> and an <strong>email</strong> when your advisor responds — even if you close this page.`,
       600
     );
 
   } catch (e) {
-    // ── DEMO MODE: backend offline ────────────────────────────
+    // ── Check if this is an eligibility failure (HTTP 400) ───────
+    if (e.message && e.message.includes('400')) {
+      STATE.step = 'collecting';
+      // Try to get the error detail from the response
+      await agentReply(
+        `⚠️ <strong>Your request could not be submitted.</strong><br><br>` +
+        `This may be due to insufficient available credits or a registration deadline issue.<br>` +
+        `Please contact your academic advisor for clarification.`,
+        600
+      );
+      return;
+    }
+
+    // ── Demo/offline fallback ────────────────────────────────────
     console.warn('[Submit] Backend offline, using mock:', e.message);
     const mockId       = 'MOCK' + Math.random().toString(36).slice(2, 6).toUpperCase();
     const mockDeadline = new Date(Date.now() + 48 * 3600 * 1000).toISOString();
@@ -191,10 +219,6 @@ async function submitToBackend(courses, reason, plan) {
       `<span class="deadline-pill">⏰ Advisor deadline: 48 hours</span>` +
       buildTracker('pending_advisor', null, null, mockDeadline),
       700
-    );
-    await agentReply(
-      `In production, your advisor receives an Outlook email and the system polls for their reply automatically.`,
-      800
     );
     addChips(['Simulate: Advisor Approves', 'Simulate: Advisor Denies', 'Check status']);
   }

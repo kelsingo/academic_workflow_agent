@@ -51,4 +51,26 @@ Function ```check_eligibility.py``` load data from ```fuv_data.db``` and check s
 
 2. Load data: request deadline, course credits, student data. 
 
+---
 
+## Start Program
+
+```bash
+# Terminal 1: Start backend
+python3 backend/main.py
+
+# Terminal 2: Start UI
+open frontend/web.html
+```
+
+
+## Configuration
+
+1. **Gmail Setup**
+   ```bash
+   cp .env.example .env
+   # Edit .env with:
+   # - Gmail: 
+   # - App Password: 
+   # - Gemini Key:
+   ```
