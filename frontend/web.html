@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fulbright One Stop Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ══ NAVBAR ════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">Fulbright</a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Browse Knowledge</a></li>
+      <li><a href="#">Ask Something</a></li>
+      <li><a href="#" class="has-arrow">My Studies</a></li>
+      <li><a href="#">Calendar</a></li>
+      <li><a href="#" class="has-arrow">My Work</a></li>
+      <li><a href="#" class="has-arrow">More</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="nav-search">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search...">
+      </div>
+      <span class="nav-bell">🔔</span>
+      <!--
+        TODO (Step 1 — Login): Replace hardcoded name with logged-in user's name.
+        e.g. <span class="nav-user" id="nav-username">Loading…</span>
+        Then set: document.getElementById('nav-username').textContent = user.name + ' ▾';
+      -->
+      <span class="nav-user">ngan.duong.220221 ▾</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ PENDING REQUEST BANNER (Step 8 — notify student on return) ══ -->
+<!-- Shown automatically if localStorage has a live request -->
+<div id="pending-banner" class="hidden" onclick="openChatToRequest()">
+  <div class="banner-icon">📋</div>
+  <div class="banner-text">
+    <strong>You have a pending course load request</strong>
+    <p id="banner-sub">Click to view status</p>
+  </div>
+  <span class="banner-badge" id="banner-badge">Pending</span>
+</div>
+
+<!-- ══ HERO ══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-content">
+    <h1>Welcome To Fulbright One Stop</h1>
+    <p>To make the most of your time at FUV, you need to get involved in university life as you can. Student Life oversees many of the programs for students that complement and support your academic journey.</p>
+    <a href="#" class="btn-primary">Browse Knowledge</a>
+  </div>
+</section>
+
+<!-- ══ MAIN CONTENT ══════════════════════════════════════════ -->
+<div class="main-wrapper">
+
+  <!-- LEFT: Events + Quick Links -->
+  <div>
+    <div class="section-header">
+      <div class="section-title">Upcoming Events</div>
+      <a href="#" class="view-all">View Full Calendar</a>
+    </div>
+    <ul class="events-list">
+      <li><span class="event-date">March 27, 2026</span><span class="event-name"><a href="#">Project &amp; Partnership Management Training</a></span></li>
+      <li><span class="event-date">March 28, 2026</span><span class="event-name"><a href="#">Career Day 2026</a></span></li>
+      <li><span class="event-date">April 6, 2026</span><span class="event-name"><a href="#">Wellness Exploration – Art Therapy Workshop</a></span></li>
+      <li><span class="event-date">April 11, 2026</span><span class="event-name"><a href="#">Sports Week 2026</a></span></li>
+      <li><span class="event-date">April 18, 2026</span><span class="event-name"><a href="#">Sport Fest</a></span></li>
+      <li><span class="event-date">April 20, 2026</span><span class="event-name"><a href="#">Green Week</a></span></li>
+    </ul>
+
+    <div style="margin-top: 32px;">
+      <div class="section-title">Quick Links</div>
+      <div class="quick-links">
+        <a href="#" class="quick-link-card"><span class="quick-link-icon">📋</span><span class="quick-link-label">Course Registration</span></a>
+        <a href="#" class="quick-link-card"><span class="quick-link-icon">📚</span><span class="quick-link-label">Academic Policies</span></a>
+        <a href="#" class="quick-link-card"><span class="quick-link-icon">💳</span><span class="quick-link-label">Student Finance</span></a>
+        <a href="#" class="quick-link-card"><span class="quick-link-icon">🏥</span><span class="quick-link-label">Health Services</span></a>
+        <a href="#" class="quick-link-card"><span class="quick-link-icon">🎓</span><span class="quick-link-label">Graduation Info</span></a>
+        <a href="#" class="quick-link-card"><span class="quick-link-icon">📝</span><span class="quick-link-label">Request Forms</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <div>
+    <div class="sidebar-card">
+      <div class="section-title">Announcements</div>
+      <p style="font-size:.85rem;color:var(--mid);line-height:1.6">Spring 2026 course registration closes <strong>April 10</strong>. Please ensure all holds are cleared before registering.</p>
+    </div>
+    <div class="sidebar-card">
+      <div class="section-title">My Courses</div>
+      <!--
+        TODO (Step 1 — Login): Load student's actual courses here.
+        e.g. fetch('/api/student/courses') and render dynamically.
+      -->
+      <ul style="list-style:none;font-size:.85rem;color:var(--mid);display:flex;flex-direction:column;gap:6px">
+        <li>• CS101 – Intro to Computer Science</li>
+        <li>• CORE101 – The World &amp; Vietnam</li>
+        <li>• IS202 – Data Structures</li>
+        <li>• CS204 – Algorithms</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST NOTIFICATION (Step 8) ═══════════════════════════ -->
+<div id="toast">
+  <span class="toast-icon" id="toast-icon">🔔</span>
+  <div>
+    <strong id="toast-title">Update</strong>
+    <div id="toast-body" style="font-size:.8rem;margin-top:3px;opacity:.85"></div>
+  </div>
+  <span class="toast-close" onclick="hideToast()">✕</span>
+</div>
+
+<!-- ══ CHAT WIDGET ════════════════════════════════════════════ -->
+<div id="chat-widget">
+  <div class="chat-header" onclick="toggleChat()">
+    <div class="chat-header-left">
+      <div class="chat-header-icon">OS</div>
+      <span class="chat-header-title">One Stop Portal Virtual Agent</span>
+    </div>
+    <span class="chat-header-chevron open" id="chevron">▼</span>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="quick-replies" id="quick-replies-bar"></div>
+    <div class="chat-input-area">
+      <textarea
+        class="chat-input" id="chat-input" rows="1"
+        placeholder="Type your message..."
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)">
+      </textarea>
+      <button class="chat-send" onclick="sendUserMessage()" id="send-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPTS (load order matters) ══════════════════════════ -->
+<!--
+  Load order:
+    1. config.js   — constants (CONFIG), no dependencies
+    2. state.js    — STATE object, depends on CONFIG
+    3. storage.js  — localStorage helpers, depends on CONFIG + STATE
+    4. api.js      — fetch calls, depends on CONFIG
+    5. ui.js       — DOM helpers, depends on STATE
+    6. polling.js  — polling + notifications, depends on all above
+    7. chat.js     — chat flow logic, depends on all above
+-->
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/polling.js"></script>
+<script src="js/chat.js"></script>
+
+<script>
+// ── PAGE INIT ─────────────────────────────────────────────────
+// Runs once on DOMContentLoaded.
+// Checks localStorage for a returning student with a live request.
+window.addEventListener('DOMContentLoaded', async () => {
+  const msgs = document.getElementById('chat-messages');
+
+  // Time labels
+  const tl = document.createElement('div'); tl.className = 'msg-time-label';
+  tl.textContent = `Today • ${nowStr()}`; msgs.appendChild(tl);
+  const jl = document.createElement('div'); jl.className = 'msg-time-label';
+  jl.textContent = `One Stop Portal Virtual Agent joined • ${nowStr()}`; msgs.appendChild(jl);
+
+  STATE.typing = true;
+  document.getElementById('send-btn').disabled = true;
+
+  // ── STEP 8: Returning student with pending request ─────────
+  const saved = storageLoadRequest();
+  if (saved && saved.status !== 'approved' && saved.status !== 'rejected') {
+    STATE.pendingRequest = saved;
+    updateBanner(saved);
+    STATE.step = saved.status === 'pending_registrar' ? 'registrar_wait' : 'advisor_wait';
+
+    // Resume polling if it's a real (non-mock) request
+    if (saved.request_id && !saved.request_id.startsWith('MOCK')) {
+      startPolling(saved.request_id);
+    }
+
+    await agentReply(
+      `Welcome back! You have a <strong>pending course load request</strong> (#${saved.request_id}).` +
+      buildTracker(saved.status, saved.advisor_decision, saved.registrar_decision, saved.deadline),
+      600
+    );
+
+    if (saved.request_id.startsWith('MOCK')) {
+      addChips(['Simulate: Advisor Approves', 'Simulate: Advisor Denies', 'Check status']);
+    }
+
+  } else {
+    // ── Fresh visit: welcome message ───────────────────────────
+    await agentReply(
+      `Hello! I am your <strong>OneStop Portal AI Assistant</strong>. I am here to help you with any ` +
+      `inquiries regarding Fulbright University Vietnam, including information on policies and procedures. ` +
+      `Additionally, I can assist you in checking your current courses and academic schedule. ` +
+      `Please feel free to ask me anything!<br><br>` +
+      `<em>Xin chào! Tôi là Trợ lý AI cổng thông tin OneStop của bạn. Hãy thoải mái hỏi tôi bất cứ điều gì nhé!</em>`,
+      700
+    );
+    addChips(['Submit course load request', 'Check my courses', 'Academic policies']);
+  }
+
+  STATE.typing = false;
+  document.getElementById('send-btn').disabled = false;
+});
+</script>
+
+</body>
+</html>
