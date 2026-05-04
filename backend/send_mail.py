@@ -1,18 +1,19 @@
+"""
+Send emails via Gmail
+"""
+
 import os
 import smtplib
-from pathlib import Path
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 
-# Load .env from project root
-env_path = Path(__file__).parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+load_dotenv()
 
-GMAIL_SENDER       = os.getenv("SENDER_EMAIL")
-GMAIL_APP_PASSWORD = os.getenv("SENDER_PASSWORD")
-REGISTRAR_EMAIL    = os.getenv("REGISTRAR_EMAIL")
+GMAIL_SENDER       = os.environ.get("SENDER_EMAIL")
+GMAIL_APP_PASSWORD = os.environ.get("SENDER_PASSWORD")
+REGISTRAR_EMAIL    = os.environ.get("REGISTRAR_EMAIL")
 GMAIL_SMTP_HOST    = "smtp.gmail.com"
 GMAIL_SMTP_PORT    = 587
 
@@ -305,13 +306,13 @@ if __name__ == "__main__":
         "student": {
             "student_name":  "Nguyen Van A",
             "student_id":    22000,
-            "email_address": "nancyduong.contact@gmail.com",   # change this
+            "email_address": "thanhngan2332@gmail.com",   # change this
             "advisor_name":  "Le E",
         },
         "courses":         ["CS101", "ARTS102"],
         "reason":          "Need to graduate on time",
         "plan":            "Meet instructors weekly",
-        "advisor_email":   "nancyduong.contact@gmail.com",        # change this
+        "advisor_email":   "thanhngan2332@gmail.com",        # change this
         "deadline":        (datetime.now(timezone.utc) + timedelta(hours=48)).isoformat() + "Z",
         "credit_required": 8,
     }
@@ -322,8 +323,8 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"{e}")
 
-    print("Testing student approval email…")
-    try:
-        send_student_email(mock_request, status="approved")
-    except Exception as e:
-        print(f"{e}")
+    # print("Testing student approval email…")
+    # try:
+    #     send_student_email(mock_request, status="approved")
+    # except Exception as e:
+    #     print(f"{e}")
