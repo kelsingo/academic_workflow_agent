@@ -305,13 +305,13 @@ if __name__ == "__main__":
         "student": {
             "student_name":  "Nguyen Van A",
             "student_id":    22000,
-            "email_address": "thanhngan2332@gmail.com",   # ← change this
+            "email_address": "nancyduong.contact@gmail.com",   # change this
             "advisor_name":  "Le E",
         },
         "courses":         ["CS101", "ARTS102"],
         "reason":          "Need to graduate on time",
         "plan":            "Meet instructors weekly",
-        "advisor_email":   "thanhngan2332@gmail.com",        # ← change this
+        "advisor_email":   "nancyduong.contact@gmail.com",        # change this
         "deadline":        (datetime.now(timezone.utc) + timedelta(hours=48)).isoformat() + "Z",
         "credit_required": 8,
     }
