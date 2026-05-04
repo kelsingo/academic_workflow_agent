@@ -1,5 +1,5 @@
 // =============================================================
-// config.js — Central configuration
+// Central configuration
 // =============================================================
 
 const CONFIG = {
@@ -8,7 +8,6 @@ const CONFIG = {
   API_BASE: 'http://localhost:8000',
 
   // How often the frontend polls the backend for status updates (ms)
-  // STEP 8 — polling is how the UI stays in sync
   POLL_INTERVAL_MS: 30000,   // 30 seconds
 
   // localStorage key to persist request across browser sessions

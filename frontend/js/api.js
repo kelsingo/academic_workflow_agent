@@ -1,5 +1,5 @@
 // =============================================================
-// api.js — All HTTP calls to the FastAPI backend
+// All HTTP calls to the FastAPI backend
 //
 // Each function maps 1-to-1 with a backend endpoint.
 // If the backend is offline, functions throw an error —

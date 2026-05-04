@@ -1,11 +1,11 @@
 // =============================================================
-// storage.js — localStorage helpers
+// localStorage helpers
 //
 // Keeps the active request in localStorage so students can close
 // the browser and return to see the same status.
 //
-// When you switch to a real database (Step 4), you can keep using
-// these functions as a local cache — they don't need to change.
+// When you switch to a real database, you can keep using
+// these functions as a local cache.
 // =============================================================
 
 

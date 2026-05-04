@@ -1,9 +1,6 @@
 // =============================================================
-// ui.js — UI helpers
-//
+// UI helpers
 // These functions are used by chat.js and polling.js.
-// If you change the HTML structure, update these functions.
-// No API calls or state changes here — just rendering.
 // =============================================================
 
 
@@ -88,7 +85,6 @@ function addChips(labels) {
 // ── STATUS TRACKER HTML ───────────────────────────────────────
 // Builds the multi-step progress tracker shown in the chat.
 // Used by chat.js and polling.js.
-// STEPS 4-8 — each step corresponds to a request lifecycle phase.
 function buildTracker(status, advisorDec, registrarDec, deadline) {
   const steps = [
     { label: 'Request Submitted',  sub: '' },
@@ -135,7 +131,6 @@ function fmtDeadline(iso) {
 
 
 // ── ELIGIBILITY ANIMATION ─────────────────────────────────────
-// STEP 3 — purely visual; real check is done by backend
 // Inserts an animated checklist into the chat message stream.
 async function runEligibilityAnimation() {
   const checks = [
@@ -172,7 +167,6 @@ async function runEligibilityAnimation() {
 
 
 // ── PENDING REQUEST BANNER ────────────────────────────────────
-// STEP 8 — shown at the top of the page when a request is active
 function updateBanner(data) {
   const banner = document.getElementById('pending-banner');
   if (!data) { banner.classList.add('hidden'); return; }
@@ -182,8 +176,8 @@ function updateBanner(data) {
   const sub   = document.getElementById('banner-sub');
 
   const labels = {
-    pending_advisor:   ['⏳ Awaiting Advisor',   'Awaiting Advisor decision'],
-    pending_registrar: ['📬 Awaiting Registrar',  'Advisor approved — Registrar reviewing'],
+    pending_advisor:   ['Awaiting Advisor',   'Awaiting Advisor decision'],
+    pending_registrar: ['Awaiting Registrar',  'Advisor approved — Registrar reviewing'],
     approved:          ['✅ Approved',             'Your request has been approved!'],
     rejected:          ['❌ Not Approved',         'Your request was not approved'],
   };

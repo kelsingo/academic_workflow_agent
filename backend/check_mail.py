@@ -107,13 +107,13 @@ def notify_backend(role: str, request_id: str, body: str) -> bool:
             timeout=10,
         )
         if resp.ok:
-            print(f"[Poller] ✅ Notified backend: {role} reply for {request_id}")
+            print(f"[Poller] Notified backend: {role} reply for {request_id}")
             return True
         else:
-            print(f"[Poller] ❌ Backend returned {resp.status_code}: {resp.text}")
+            print(f"[Poller] Backend returned {resp.status_code}: {resp.text}")
             return False
     except Exception as e:
-        print(f"[Poller] ❌ Could not reach backend: {e}")
+        print(f"[Poller] Could not reach backend: {e}")
         return False
 
 

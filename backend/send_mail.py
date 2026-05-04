@@ -85,7 +85,7 @@ def _html_wrap(inner: str) -> str:
 </html>"""
 
 
-# ── STEP 5: EMAIL TO ADVISOR ─────────────────────────────────────
+# ── EMAIL TO ADVISOR ─────────────────────────────────────
 def send_advisor_email(request: dict):
     """
     Send approval request email to the student's academic advisor.
@@ -166,7 +166,7 @@ processed by the Registrar's Office.</p>
     )
 
 
-# ── STEP 7: EMAIL TO REGISTRAR ───────────────────────────────────
+# ── EMAIL TO REGISTRAR ───────────────────────────────────
 def send_registrar_email(request: dict):
     """
     Forward approved request to Registrar's Office.
@@ -224,7 +224,7 @@ def send_registrar_email(request: dict):
     )
 
 
-# ── STEP 8: EMAIL TO STUDENT ─────────────────────────────────────
+# ── EMAIL TO STUDENT ─────────────────────────────────────
 def send_student_email(request: dict, status: str, reason: str = None):
     """
     Notify the student of the final outcome.

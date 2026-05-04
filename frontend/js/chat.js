@@ -1,15 +1,5 @@
 // =============================================================
-// chat.js — Chat flow logic
-//
-//   Step 2 (connect UI ↔ backend)
-//   Step 3 (student submit)
-//   Step 3a (extract + check LLM)
-//   Step 4 (create request in DB)
-//   Step 5 (send email)       
-//   Step 6 (advisor reply)
-//
-// Flow steps:
-//   idle → collecting → checking → advisor_wait → registrar_wait → done
+// Chat flow logic
 // =============================================================
 
 
@@ -127,7 +117,7 @@ async function handleCollecting(text, lower) {
   if (!extracted.is_valid) {
     STATE.step = 'collecting';
     const errorMsg = extracted.errors?.[0] || 'Please check your input and try again.';
-    await agentReply(`⚠️ ${errorMsg}<br><br>Please revise and re-enter your request.`, 500);
+    await agentReply(`${errorMsg}<br><br>Please revise and re-enter your request.`, 500);
     return;
   }
 
