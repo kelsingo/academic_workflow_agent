@@ -37,12 +37,14 @@ async function routeMessage(text) {
 
   const lower = text.toLowerCase();
 
-  if      (STATE.step === 'idle')            await handleIdle(text, lower);
-  else if (STATE.step === 'collecting')      await handleCollecting(text, lower);
-  else if (STATE.step === 'checking')        { /* checking is automated, no user input */ }
-  else if (STATE.step === 'advisor_wait')    await handleAdvisorWait(text, lower);
-  else if (STATE.step === 'registrar_wait')  await handleRegistrarWait(text, lower);
-  else                                       await handleDone(text, lower);
+  if      (STATE.step === 'idle')              await handleIdle(text, lower);
+  else if (STATE.step === 'collecting')        await handleCollecting(text, lower);
+  else if (STATE.step === 'checking')          { /* automated */ }
+  else if (STATE.step === 'advisor_wait')      await handleAdvisorWait(text, lower);
+  else if (STATE.step === 'rejected_advisor')  await handleRejectedAdvisor(text, lower);
+  else if (STATE.step === 'suggestion_review') await handleSuggestionReview(text, lower);
+  else if (STATE.step === 'registrar_wait')    await handleRegistrarWait(text, lower);
+  else                                         await handleDone(text, lower);
 
   STATE.typing = false;
   document.getElementById('send-btn').disabled = false;
@@ -142,7 +144,7 @@ async function handleCollecting(text, lower) {
   await new Promise(r => setTimeout(r, 400));
   await agentReply(`<span class="sbadge ok">✅ Eligible</span> All checks passed! Submitting your request…`, 600);
 
-  // ── Step 3 → Step 4: Submit to backend ───────────────────────
+  // ── Step 4: Submit to backend ───────────────────────
   await submitToBackend(extracted.courses, extracted.reason, extracted.plan);
 }
 
@@ -157,7 +159,7 @@ function _regexFallback(text) {
 }
 
 
-// ── STEP 4: Submit request to backend + start tracking ────────
+// ── STEP 4: Submit request to backend ────────
 // Calls POST /api/submit which runs eligibility check, saves to DB,
 // and sends the advisor email (Steps 4 + 5).
 async function submitToBackend(courses, reason, plan) {
@@ -176,7 +178,7 @@ async function submitToBackend(courses, reason, plan) {
 
     await agentReply(
       `<strong>Request submitted!</strong> Your advisor has been notified via email with a 48-hour deadline.<br><br>` +
-      `<span class="deadline-pill">⏰ Advisor deadline: 48 hours</span>` +
+      `<span class="deadline-pill">Advisor deadline: 48 hours</span>` +
       buildTracker('pending_advisor', null, null, data.deadline),
       700
     );
@@ -193,7 +195,7 @@ async function submitToBackend(courses, reason, plan) {
       STATE.step = 'collecting';
       // Try to get the error detail from the response
       await agentReply(
-        `⚠️ <strong>Your request could not be submitted.</strong><br><br>` +
+        `<strong>Your request could not be submitted.</strong><br><br>` +
         `This may be due to insufficient available credits or a registration deadline issue.<br>` +
         `Please contact your academic advisor for clarification.`,
         600
@@ -216,7 +218,7 @@ async function submitToBackend(courses, reason, plan) {
     await agentReply(
       `<strong>Request submitted (demo mode)</strong><br>` +
       `<small style="color:var(--light)">Backend offline — mock ID: ${mockId}</small><br><br>` +
-      `<span class="deadline-pill">⏰ Advisor deadline: 48 hours</span>` +
+      `<span class="deadline-pill">Advisor deadline: 48 hours</span>` +
       buildTracker('pending_advisor', null, null, mockDeadline),
       700
     );
@@ -225,81 +227,242 @@ async function submitToBackend(courses, reason, plan) {
 }
 
 
-// ── STEP 6: ADVISOR WAIT ──────────────────────────────────────
-//
-// In production: polling.js handles real advisor replies automatically.
-// The chips below are for demo/simulation only.
+// ══════════════════════════════════════════════════════════════════
+// STEP 6: ADVISOR WAIT
+// Real decisions arrive via polling.js → onStatusChanged().
+// This handler manages:
+//   - "Check status" user queries
+//   - The full rejection flow (suggest fix -> resubmit)
+//   - Demo simulation chips for testing without real email
+// ══════════════════════════════════════════════════════════════════
 async function handleAdvisorWait(text, lower) {
-  if (lower.includes('simulate') && lower.includes('approv')) {
-    // Simulate advisor approval
-    STATE.step = 'registrar_wait';
-    const req = storageLoadRequest();
-    if (req) { req.status = 'pending_registrar'; req.advisor_decision = 'approved'; storageSaveRequest(req); updateBanner(req); }
-    await agentReply(
-      `✅ <strong>Advisor approved!</strong> Forwarding to Registrar's Office…<br>` +
-      buildTracker('pending_registrar', 'approved', null, req?.deadline), 800
-    );
-    addChips(['Simulate: Registrar Approves', 'Simulate: Registrar Rejects']);
-  }
 
-  else if (lower.includes('simulate') && (lower.includes('den') || lower.includes('reject'))) {
-    // ── STEP 6b: Advisor denied ───────────────────────────────
-    // TODO: When backend sends rejection with reason:
-    //   1. Extract reason from email (done in backend llm_classifier.py)
-    //   2. Show popup: "Do you want to fix and resubmit?"
-    //   3. If yes: LLM suggests edits → reset STATE.step = 'collecting'
-    STATE.step = 'done';
-    const req = storageLoadRequest();
-    if (req) { req.status = 'rejected'; req.advisor_decision = 'rejected'; storageSaveRequest(req); updateBanner(req); }
-    storageClearRequest();
-    await agentReply(
-      `❌ <strong>Advisor denied the request.</strong><br><br>` +
-      `Reason: Student's current academic standing does not meet the requirement for maximum course load.<br><br>` +
-      `Would you like the AI to suggest how to improve your application?`, 800
-    );
-    addChips(['Yes, suggest improvements', 'No, I will contact my advisor', 'Submit new request']);
-    STATE.step = 'idle';
-  }
-
-  else if (lower.includes('suggest improvement')) {
-    // ── STEP 6b: LLM suggests fixes ──────────────────────────
-    // TODO: Call LLM with the rejection reason
-    // and student's original reason/plan to suggest improvements.
-    await agentReply(
-      `💡 Based on the advisor's feedback, here are some suggestions:<br><br>` +
-      `• Strengthen your <strong>workload plan</strong> — add specific weekly schedules<br>` +
-      `• Show evidence of prior success with heavy loads<br>` +
-      `• Get written support from at least one instructor<br><br>` +
-      `Would you like to revise and resubmit your request?`, 900
-    );
-    addChips(['Yes, let me revise', 'No thanks']);
-    STATE.step = 'idle';
-  }
-
-  else if (lower.includes('yes, let me revise')) {
-    STATE.step = 'collecting';
-    await agentReply(`Sure! Please re-enter your course IDs, updated reason, and revised plan.`, 600);
-  }
-
-  else if (lower.includes('status') || lower.includes('check')) {
+  // ── Check status ──────────────────────────────────────────────
+  if (lower.includes('check') || lower.includes('status')) {
     const req = storageLoadRequest();
     await agentReply(
-      `Your request is currently <strong>awaiting your advisor's decision</strong>.<br>` +
+      `Your request is <strong>awaiting your advisor's decision</strong>. ` +
+      `You'll be notified automatically when they respond.<br>` +
       buildTracker('pending_advisor', null, null, req?.deadline)
     );
     addChips(['Simulate: Advisor Approves', 'Simulate: Advisor Denies']);
+    return;
   }
 
-  else {
-    await agentReply(`Your request is with your advisor. You'll be notified automatically when they respond.`);
-    addChips(['Simulate: Advisor Approves', 'Simulate: Advisor Denies', 'Check status']);
+  // ── DEMO: Simulate advisor approval ───────────────────────────
+  if (lower.includes('simulate') && lower.includes('approv')) {
+    STATE.step = 'registrar_wait';
+    const req = storageLoadRequest();
+    if (req) {
+      req.status = 'pending_registrar';
+      req.advisor_decision = 'approved';
+      storageSaveRequest(req);
+      updateBanner(req);
+    }
+    notifyToast('✅', 'Advisor Approved', 'Your request is forwarding to Registrar…');
+    await agentReply(
+      `<strong>Your advisor approved your request!</strong><br>` +
+      `The system is forwarding it to the <strong>Registrar's Office</strong> for final review.<br><br>` +
+      buildTracker('pending_registrar', 'approved', null, req?.deadline), 800
+    );
+    addChips(['Simulate: Registrar Approves', 'Simulate: Registrar Rejects']);
+    return;
   }
+
+  // ── DEMO: Simulate advisor rejection ──────────────────────────
+  if (lower.includes('simulate') && (lower.includes('den') || lower.includes('reject'))) {
+    const req = storageLoadRequest();
+    const mockReason = 'GPA does not meet the minimum requirement for maximum course load this semester.';
+    if (req) {
+      req.status = 'rejected';
+      req.advisor_decision = 'rejected';
+      req.advisor_reason = mockReason;
+      storageSaveRequest(req);
+      updateBanner(req);
+    }
+    // Trigger the same rejection UI as a real rejection from polling
+    await _showRejectionFlow(mockReason);
+    return;
+  }
+
+  // ── Fallback ──────────────────────────────────────────────────
+  await agentReply(`Your request is with your advisor. You'll be notified automatically when they respond.`);
+  addChips(['Check status', 'Simulate: Advisor Approves', 'Simulate: Advisor Denies']);
 }
 
 
-// ── STEP 7: REGISTRAR WAIT ────────────────────────────────────
-// In production: polling.js handles real registrar replies.
+// ── STEP 6b: Rejection flow (used by both real polling + demo) ───
+// Called by onStatusChanged() in polling.js when status → 'rejected' (advisor stage)
+// and by demo simulation above.
+async function _showRejectionFlow(reason) {
+  STATE.step = 'rejected_advisor';
+  notifyToast('❌', 'Advisor Decision', 'Your request was not approved by your advisor.');
+
+  await agentReply(
+    `<strong>Your advisor has not approved your request.</strong><br><br>` +
+    `<strong>Reason:</strong> ${reason || 'No specific reason provided.'}<br><br>` +
+    `Would you like the AI to suggest how to improve your reason and plan so you can resubmit?`,
+    800
+  );
+  addChips(['Yes, suggest improvements ✨', 'No, I\'ll revise myself', 'Cancel']);
+}
+
+
+// ── STEP 6b: Student responses after rejection ────────────────────
+async function handleRejectedAdvisor(text, lower) {
+
+  // ── Student wants AI suggestions ─────────────────────────────
+  if (lower.includes('yes') && lower.includes('suggest')) {
+    const req = storageLoadRequest();
+    if (!req?.request_id) {
+      await agentReply(`Sorry, I couldn't find your request. Please resubmit from scratch.`);
+      STATE.step = 'idle';
+      addChips(['Submit course load request']);
+      return;
+    }
+
+    await agentReply(`Let me generate improved suggestions based on your advisor's feedback…`, 500);
+
+    let suggestions;
+    try {
+      const resp = await fetch(`${CONFIG.API_BASE}/api/suggest-fix`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ request_id: req.request_id }),
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      suggestions = await resp.json();
+    } catch (e) {
+      console.warn('[SuggestFix] API failed, using generic:', e.message);
+      // Offline fallback
+      suggestions = {
+        suggested_reason: 'I need to complete these courses to remain on track for graduation. I have reviewed the advisor\'s concerns and am committed to maintaining academic performance.',
+        suggested_plan:   'I will attend all office hours weekly, reduce extracurricular commitments, form a study group, and send weekly progress updates to each instructor.',
+        courses: req.courses || [],
+      };
+    }
+
+    // Store suggestions in STATE for use when student confirms
+    STATE._suggestions = {
+      courses:        suggestions.courses || req.courses || [],
+      reason:         suggestions.suggested_reason,
+      plan:           suggestions.suggested_plan,
+      rejection_reason: suggestions.rejection_reason,
+    };
+
+    await agentReply(
+      `✨ <strong>Here are the AI-suggested improvements:</strong><br><br>` +
+      `<strong>Improved Reason:</strong><br>` +
+      `<div style="background:#f0f7ff;padding:8px 10px;border-radius:6px;margin:4px 0 10px;font-size:.82rem">` +
+      `${suggestions.suggested_reason}</div>` +
+      `<strong>Improved Plan:</strong><br>` +
+      `<div style="background:#f0f7ff;padding:8px 10px;border-radius:6px;margin:4px 0">` +
+      `${suggestions.suggested_plan}</div><br>` +
+      `Would you like to resubmit with these suggestions, or edit them first?`,
+      900
+    );
+    addChips(['Resubmit with these suggestions', 'Let me edit first', 'Cancel']);
+    STATE.step = 'suggestion_review';
+    return;
+  }
+
+  // ── Student will revise on their own ─────────────────────────
+  if (lower.includes('no') || lower.includes('myself')) {
+    STATE.step = 'collecting';
+    storageClearRequest();
+    await agentReply(
+      `No problem! Please re-enter your request with an updated reason and plan.<br><br>` +
+      `<em>Format: "Course IDs: CS101, CS204, CORE101 | Reason: ... | Plan: ..."</em>`,
+      600
+    );
+    return;
+  }
+
+  // ── Cancel ───────────────────────────────────────────────────
+  if (lower.includes('cancel')) {
+    STATE.step = 'idle';
+    storageClearRequest();
+    await agentReply(`Understood. Your request has been closed. Feel free to start a new one anytime.`);
+    addChips(['Submit course load request']);
+    return;
+  }
+
+  await agentReply(`Would you like AI suggestions, or would you prefer to revise your request yourself?`);
+  addChips(['Yes, suggest improvements ✨', 'No, I\'ll revise myself', 'Cancel']);
+}
+
+
+// ── STEP 6b: Review AI suggestions ───────────────────────────────
+async function handleSuggestionReview(text, lower) {
+
+  // ── Accept suggestions and resubmit ──────────────────────────
+  if (lower.includes('resubmit') || lower.includes('yes')) {
+    if (!STATE._suggestions) {
+      STATE.step = 'collecting';
+      await agentReply(`Let's start fresh. Please enter your course IDs, reason, and plan.`);
+      return;
+    }
+    // Jump straight to submitToBackend with the AI-suggested values
+    STATE.step = 'checking';
+    await agentReply(`Resubmitting with the improved reason and plan…`, 500);
+    await runEligibilityAnimation();
+    await new Promise(r => setTimeout(r, 300));
+    await agentReply(`<span class="sbadge ok">✅ Eligible</span> Submitting updated request…`, 500);
+    await submitToBackend(
+      STATE._suggestions.courses,
+      STATE._suggestions.reason,
+      STATE._suggestions.plan,
+    );
+    STATE._suggestions = null;
+    return;
+  }
+
+  // ── Student wants to edit suggestions first ───────────────────
+  if (lower.includes('edit') || lower.includes('first')) {
+    STATE.step = 'collecting';
+    STATE._prefill = STATE._suggestions;   // ui hint for pre-filled input
+    storageClearRequest();
+    await agentReply(
+      `Sure! The AI suggestions have been pre-filled as a starting point.<br><br>` +
+      `Please type your updated request in this format:<br>` +
+      `<em>"Course IDs: ${(STATE._suggestions?.courses || []).join(', ')} | Reason: [your reason] | Plan: [your plan]"</em>`,
+      600
+    );
+    STATE._suggestions = null;
+    return;
+  }
+
+  // ── Cancel ───────────────────────────────────────────────────
+  if (lower.includes('cancel')) {
+    STATE.step = 'idle';
+    storageClearRequest();
+    STATE._suggestions = null;
+    await agentReply(`Understood. Feel free to start a new request anytime.`);
+    addChips(['Submit course load request']);
+    return;
+  }
+
+  addChips(['Resubmit with these suggestions', 'Let me edit first', 'Cancel']);
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// STEP 7: REGISTRAR WAIT
+// Real decisions arrive via polling.js → onStatusChanged().
+// Demo simulation chips for testing.
+// ══════════════════════════════════════════════════════════════════
 async function handleRegistrarWait(text, lower) {
+
+  if (lower.includes('check') || lower.includes('status')) {
+    const req = storageLoadRequest();
+    await agentReply(
+      `Your request is <strong>with the Registrar's Office</strong> for final review.<br>` +
+      buildTracker('pending_registrar', 'approved', null, req?.deadline)
+    );
+    addChips(['Simulate: Registrar Approves', 'Simulate: Registrar Rejects']);
+    return;
+  }
+
   if (lower.includes('simulate') && lower.includes('approv')) {
     STATE.step = 'done';
     const req  = storageLoadRequest();
@@ -312,21 +475,23 @@ async function handleRegistrarWait(text, lower) {
       `Dear <strong>${name}</strong>,<br><br>` +
       `Your <strong>Maximum Course Load Request</strong> has been officially approved by the Registrar's Office.<br><br>` +
       `You are now authorized to register for up to <strong>20 credit hours</strong> this term.<br><br>` +
-      `A confirmation email has been sent to your Fulbright email address.<br><br>` +
+      `A confirmation email has also been sent to your Fulbright email address.<br><br>` +
       `<em>Best regards,<br>Fulbright Academic Automated System</em>`, 900
     );
     storageClearRequest();
     addChips(['Submit another request', 'Done ✓']);
     STATE.step = 'idle';
+    return;
   }
 
-  else if (lower.includes('simulate') && lower.includes('reject')) {
+  if (lower.includes('simulate') && lower.includes('reject')) {
     STATE.step = 'done';
     const req = storageLoadRequest();
+    const mockReason = 'Academic standing requirements not met for this term.';
     if (req) { req.status = 'rejected'; req.registrar_decision = 'rejected'; storageSaveRequest(req); updateBanner(req); }
     notifyToast('❌', 'Request Rejected', 'The Registrar did not approve your request.');
     await agentReply(
-      `<span class="sbadge err">❌ NOT APPROVED</span><br><br>` +
+      `<span class="sbadge err">NOT APPROVED</span><br><br>` +
       `The Registrar's Office has rejected your request.<br><br>` +
       `<strong>Reason:</strong> Academic standing requirements not met for this term.<br><br>` +
       `A notification email has been sent. Please visit the Registrar's Office for further guidance.`, 900

@@ -58,36 +58,38 @@ function handleStatusUpdate(data) {
   }
 }
 
-// ── REACT TO STATUS CHANGE ───────────────────────────────────
-// STEP 6 (advisor) + STEP 7 (registrar) outcomes arrive here
+// ── REACT TO STATUS CHANGE ─────────────────────
+// Called when polling detects status has changed.
+// Advisor rejection hands off to _showRejectionFlow() in chat.js.
 function onStatusChanged(data, prevStatus) {
-  const name = STATE.student?.student_name || 'Student';
+  const name = STATE.student ? STATE.student.student_name : 'Student';
 
-  // ── STEP 6a: Advisor approved → now pending registrar ──────
+  // Advisor approved
   if (data.status === 'pending_registrar') {
-    notifyToast('✅', 'Advisor Decision Received', 'Your advisor approved your request. Forwarding to Registrar…');
-    notifyPush('Advisor Approved', 'Your course load request has been approved by your advisor.');
-
+    notifyToast('✅', 'Advisor Approved', 'Forwarding to Registrar…');
+    notifyPush('Advisor Approved', 'Your course load request was approved by your advisor.');
     if (STATE.step === 'advisor_wait') {
-      agentReply(`🎉 <strong>Your advisor approved your request!</strong><br>The system is forwarding it to the <strong>Registrar's Office</strong> for final review.`);
+      agentReply(
+        '<strong>Your advisor approved your request!</strong><br>' +
+        'The system is forwarding it to the <strong>Registrar Office</strong> for final review.<br><br>' +
+        buildTracker(data.status, data.advisor_decision, null, data.deadline)
+      );
       STATE.step = 'registrar_wait';
-      addMessage('agent', buildTracker(data.status, data.advisor_decision, null, data.deadline));
     }
   }
 
-  // ── STEP 6b / STEP 7b: Final approval ──────────────────────
+  // Registrar approved
   else if (data.status === 'approved') {
-    notifyToast('🎓', 'Request Approved!', 'Your Maximum Course Load has been fully approved.');
-    notifyPush('Course Load Approved!', 'You are now authorized to register for up to 20 credit hours.');
-
+    notifyToast('🎓', 'Request Approved!', 'Your course load request has been fully approved.');
+    notifyPush('Course Load Approved!', 'You are authorized for up to 20 credit hours.');
     if (STATE.step === 'advisor_wait' || STATE.step === 'registrar_wait') {
       agentReply(
-        `<span class="sbadge ok">🎓 APPROVED</span><br><br>` +
-        `Dear <strong>${name}</strong>,<br><br>` +
-        `Your <strong>Maximum Course Load Request</strong> has been officially approved by the Registrar.<br><br>` +
-        `You are now authorized to register for up to <strong>20 credit hours</strong> this term.<br><br>` +
-        `A confirmation email has been sent to your Fulbright email address.<br><br>` +
-        `<em>Best regards,<br>Fulbright Academic Automated System</em>`
+        '<span class="sbadge ok">🎓 APPROVED</span><br><br>' +
+        'Dear <strong>' + name + '</strong>,<br><br>' +
+        'Your <strong>Maximum Course Load Request</strong> has been officially approved by the Registrar.<br><br>' +
+        'You are now authorized to register for up to <strong>20 credit hours</strong> this term.<br><br>' +
+        'A confirmation email has also been sent to your Fulbright email address.<br><br>' +
+        '<em>Best regards,<br>Fulbright Academic Automated System</em>'
       );
       STATE.step = 'done';
       addChips(['Submit another request', 'Done ✓']);
@@ -95,20 +97,26 @@ function onStatusChanged(data, prevStatus) {
     }
   }
 
-  // ── STEP 6b / STEP 7b: Rejection at any stage ──────────────
+  // Advisor rejected => Suggest
+  // Registrar rejected => Final rejection
   else if (data.status === 'rejected') {
-    const reason = data.registrar_reason || data.advisor_reason || 'Please contact your advisor for details.';
-    notifyToast('❌', 'Request Not Approved', reason);
-    notifyPush('Course Load Request Rejected', reason);
+    var isAdvisorStage = (prevStatus === 'pending_advisor');
+    var reason = data.advisor_reason || data.registrar_reason || 'No specific reason provided.';
 
-    if (STATE.step === 'advisor_wait' || STATE.step === 'registrar_wait') {
+    if (isAdvisorStage && STATE.step === 'advisor_wait') {
+      // Advisor rejected: hand off to chat.js rejection flow
+      _showRejectionFlow(reason);
+    } else if (STATE.step === 'registrar_wait') {
+      // Registrar rejected: final, no resubmit
+      notifyToast('❌', 'Request Not Approved', reason);
+      notifyPush('Course Load Rejected', reason);
       agentReply(
-        `<span class="sbadge err">❌ NOT APPROVED</span><br><br>` +
-        `Dear <strong>${name}</strong>,<br><br>` +
-        `Your <strong>Maximum Course Load Request</strong> has been rejected.<br><br>` +
-        `<strong>Reason:</strong> ${reason}<br><br>` +
-        `You may resubmit after addressing the concerns, or visit the Registrar's Office.<br><br>` +
-        `<em>Best regards,<br>Fulbright Academic Automated System</em>`
+        '<span class="sbadge err">NOT APPROVED</span><br><br>' +
+        'Dear <strong>' + name + '</strong>,<br><br>' +
+        'The Registrar Office has rejected your request.<br><br>' +
+        '<strong>Reason:</strong> ' + reason + '<br><br>' +
+        'Please visit the Registrar Office for further guidance.<br><br>' +
+        '<em>Best regards,<br>Fulbright Academic Automated System</em>'
       );
       STATE.step = 'done';
       addChips(['Submit new request', 'Contact registrar']);
@@ -117,9 +125,8 @@ function onStatusChanged(data, prevStatus) {
   }
 }
 
-
 // ── BROWSER PUSH NOTIFICATIONS ───────────────────────────────
-// STEP 8 — push notification when student is away from the page
+// Push notification when student is away from the page
 async function requestNotifPermission() {
   if (!('Notification' in window)) return;
   if (Notification.permission === 'default') {
@@ -135,7 +142,7 @@ function notifyPush(title, body) {
 
 
 // ── IN-PAGE TOAST ─────────────────────────────────────────────
-// STEP 8 — visible toast when student is on the page
+// Visible notification when student is on the page
 let _toastTimer;
 function notifyToast(icon, title, body) {
   document.getElementById('toast-icon').textContent  = icon;
