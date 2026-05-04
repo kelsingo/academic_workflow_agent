@@ -16,8 +16,8 @@ const CONFIG = {
   // Mock student data — replace with real login session (Step 1)
   // TODO: pull this from auth session instead
   MOCK_STUDENT: {
-    student_name:  'Phan Thi Son',
+    student_name:  'Duong Hoang Ngan',
     student_id:    25418,     
-    email_address: 'son.phan.25418@student.fulbright.edu.vn',
+    email_address: 'ngan.duong.220221@student.fulbright.edu.vn',
   },
 };
