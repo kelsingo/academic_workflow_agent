@@ -32,13 +32,41 @@ python API_request.py
 
 ## Backend 
 ### Datasets
-Database is stored using SQLite3. To view database: 
+Database is stored using SQLite3. To view database:
+
+**View all tables:**
 ```bash
-sqlite3 fuv_data.db
-.tables 
+sqlite3 datasets/fuv_data.db ".tables"
 ```
 
-View script to create SQL database: ``` script.sql ``` 
+**Query specific tables:**
+```bash
+sqlite3 datasets/fuv_data.db
+
+# View students table
+SELECT * FROM students LIMIT 5;
+
+# View course requests
+SELECT * FROM course_load_requests;
+
+# View advisors
+SELECT * FROM advisors;
+
+# View courses available this semester
+SELECT * FROM course_2526 LIMIT 10;
+
+# View registration deadlines
+SELECT * FROM maxcourse_deadline;
+
+# Exit sqlite3
+.quit
+```
+
+**Or query directly from terminal:**
+```bash
+sqlite3 datasets/fuv_data.db "SELECT * FROM students LIMIT 5;"
+sqlite3 datasets/fuv_data.db "SELECT * FROM course_load_requests;"
+```
 
 ### Logic Handler
 Function ```check_eligibility.py``` load data from ```fuv_data.db``` and check students' elegibility for enrolling in 5 courses upon receiving request. 
