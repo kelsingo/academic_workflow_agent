@@ -23,9 +23,9 @@ def save_status(student_id, status, request_id):
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
     cur.execute('''
-        INSERT INTO maxcourse_requests (student_id, status, request_id)
+        INSERT INTO requests (student_id, status, request_type_id)
         VALUES (?, ?, ?)
-        ON CONFLICT(student_id) DO UPDATE SET status=excluded.status, request_id=excluded.request_id
+        ON CONFLICT(student_id) DO UPDATE SET status=excluded.status, request_type_id=excluded.request_type_id
     ''', (student_id, status, request_id))
     con.commit()
     con.close()
@@ -34,7 +34,7 @@ def update_status(student_id, new_status):
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
     cur.execute('''
-        UPDATE maxcourse_requests
+        UPDATE requests
         SET status = ?
         WHERE student_id = ?
     ''', (new_status, student_id))
@@ -44,10 +44,16 @@ def update_status(student_id, new_status):
 def save_maxcourse_info(course_ids, reason, plan):
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
+    for id in course_ids:
+        course_id_1 = id[0]
+        course_id_2 = id[1] 
+        course_id_3 = id[2]
+        course_id_4 = id[3]
+        course_id_5 = id[4]    
     cur.execute('''
-        INSERT INTO maxcourse_requests (course_ids, reason, plan)
-        VALUES (?, ?, ?)
-    ''', (json.dumps(course_ids), reason, plan))
+        INSERT INTO maxcourse_requests (course_id_1, course_id_2, course_id_3, course_id_4, course_id_5, reason, plan)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (course_id_1, course_id_2, course_id_3, course_id_4, course_id_5, reason, plan))
     con.commit()
     con.close()
 
@@ -58,9 +64,9 @@ def update_maxcourse_info(student_id, course_ids=None, reason=None, plan=None):
     if course_ids is not None:
         cur.execute('''
             UPDATE maxcourse_requests
-            SET course_ids = ?
+            SET course_id_1 = ?, course_id_2 = ?, course_id_3 = ?, course_id_4 = ?, course_id_5 = ?
             WHERE student_id = ?
-        ''', (json.dumps(course_ids), student_id))
+        ''', (course_ids[0], course_ids[1], course_ids[2], course_ids[3], course_ids[4], student_id))
     
     if reason is not None:
         cur.execute('''
