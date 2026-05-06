@@ -5,6 +5,8 @@ Check eligibilities of students
 import sqlite3
 import os
 from datetime import datetime
+from .data_adapter import save_status
+from .data_adapter import save_maxcourse_info, load_deadline, load_all_data, load_course_availability, load_credits_required
 
 BASE_DIR = os.path.dirname(__file__)
 DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'datasets', 'fuv_data.db'))
@@ -14,7 +16,7 @@ current_course_offerings = 'course_2526'
 def eligible_check(data):
     load_all_data(data)
 
-    unavailable_courses = check_course_availability(data['course_code'])
+    unavailable_courses = load_course_availability(data['course_code'])
     if unavailable_courses:
         return f"Course(s) {unavailable_courses} not available for this semester. Please re-check the course information."
 
@@ -29,104 +31,6 @@ def eligible_check(data):
     
     else:
         return False # not eligible
-
-def check_course_availability(courses):
-    con = sqlite3.connect(DB_PATH)
-    cur = con.cursor()
-    result = []
-    for course in courses:
-        cur.execute(f'''
-            SELECT *
-            FROM {current_course_offerings}
-            WHERE course_code = ? OR course_name = ?
-        ''', (course, course))
-        if cur.fetchone() is None:
-            result.append(course)
-    con.close()
-    if result:
-        return result
-    else:
-        return None
-
-def load_deadline(current_semester):
-    con = sqlite3.connect(DB_PATH)
-    cur = con.cursor()
-    
-    cur.execute('''
-        SELECT deadline_date
-        FROM maxcourse_deadline
-        WHERE semester = ?
-    ''', (current_semester,))
-    
-    result = cur.fetchone()
-    con.close()
-    
-    if result:
-        return datetime.strptime(result[0], "%Y-%m-%d").date()
-    else:
-        return None
-
-def load_all_data(data):
-    student_id = data['student_id']
-    student_data = load_student_data(student_id)
-    if 'course_code' in data:
-        courses = data['course_code']
-        credits = load_credits_required(courses)
-    elif 'course_name' in data:
-        courses = data['course_name']
-        credits = load_credits_required(courses)
-    else:
-        return "Course information missing"
-
-    data.update(student_data)
-    data['credit_required'] = credits
-    return data 
-
-
-def load_student_data(student_id):
-    con = sqlite3.connect(DB_PATH)
-    cur = con.cursor()
-    
-    cur.execute('''
-        SELECT student_name, email, advisor_name, credit_available
-        FROM students 
-        WHERE student_id = ?
-    ''', (student_id,))
-    
-    result = cur.fetchone()
-    con.close()
-    
-    if result:
-        student_name, email, advisor_name, credit_available = result
-        return {
-            'student_name': student_name,
-            'email': email,
-            'advisor_name': advisor_name,
-            'credit_available': credit_available,
-        }
-    else:
-        return None
-
-def load_credits_required(courses):
-    con = sqlite3.connect(DB_PATH)
-    cur = con.cursor()
-    result = [] 
-    for course in courses:
-        cur.execute(f'''
-            SELECT credits
-            FROM {current_course_offerings} 
-            WHERE course_code = ? OR course_name = ?
-        ''', (course, course))
-        row = cur.fetchone()
-        if row is not None:
-            result.append(row[0])
-    con.close()
-    
-    if result:
-        credits = sum(result)
-        return credits
-    else:
-        return None
 
 
 if __name__ == "__main__":
