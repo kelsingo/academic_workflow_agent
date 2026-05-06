@@ -1,0 +1,7 @@
+id,status,description
+1,idle,No active flow
+2,collecting,Waiting for student to enter course IDs/reason/plan
+3,checking,Eligibility animation running (automated)
+4,advisor_wait,"Request submitted, polling for advisor reply"
+5,registrar_wait,"Advisor approved, polling for registrar reply"
+6,done,Final outcome shown

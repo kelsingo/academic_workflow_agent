@@ -67,6 +67,10 @@ SELECT * FROM maxcourse_deadline;
 sqlite3 datasets/fuv_data.db "SELECT * FROM students LIMIT 5;"
 sqlite3 datasets/fuv_data.db "SELECT * FROM course_load_requests;"
 ```
+**Add new table to fuv_data.db:**
+```bash
+python3 sql_create.py --table-name "table name" --csv-file "csv file contains your table" --table-schema "SQL statements to create your table" 
+```
 
 ### Logic Handler
 Function ```check_eligibility.py``` load data from ```fuv_data.db``` and check students' elegibility for enrolling in 5 courses upon receiving request. 
