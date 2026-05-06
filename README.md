@@ -12,8 +12,13 @@ The pipeline then evaluates eligibility using student and course information dat
 
 Set your Gemini API key as an environment variable:
 
+For MacOS and Linux:
 ```bash
 export GEMINI_API_KEY="your_api_key_here"
+```
+For Windows' PowerShell:
+```bash
+$env:GEMINI_API_KEY="your__api_key_here"
 ```
 
 ### 2. Run extraction test 
