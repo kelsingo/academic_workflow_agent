@@ -1,0 +1,76 @@
+===================================================
+ACADEMIC AGENT - EXTRACTION STRESS TEST PROMPTS
+===================================================
+
+--- CATEGORY 5: MISSING-FIELD PROMPT (15) ---
+
+[P01]
+"I want to request max load this semester.
+Courses: CS101, MATH201, ENG301, HIS101, SOCI202.
+I believe I can handle the workload based on my previous experience."
+
+[P02]
+"Maximum load request.
+Reason: I want to graduate earlier and have more flexibility in future semesters."
+
+[P03]
+"Request max load.
+Plan: I will create a structured weekly study schedule and stay consistent with my work."
+
+[P04]
+"I want max load this semester.
+Courses: CS201, CS208, ENG208, ART104, MATH104.
+Reason: I want to build a stronger foundation before taking advanced courses."
+
+[P05]
+"Maximum load request.
+Courses: PSY101, ART102, HIS103, MATH201, ENG102.
+Plan: I will allocate fixed time daily for studying and revision."
+
+[P06]
+"Request max load.
+Reason: I want to complete my academic requirements earlier.
+Plan: I will focus more on studying and reduce distractions."
+
+[P07]
+"I’d like max load.
+Courses: CS210, CS211, CS212, MATH240, IS200.
+I am confident I can manage the workload."
+
+[P08]
+"Max load request.
+Courses: SOCI201, SOCI202, MATH205, IS210, CS105.
+Reason: I want to complete my major efficiently."
+
+[P09]
+"Request max load.
+Plan: I will reduce extracurricular activities and focus on academics.
+Courses: CS301, CS302, CS303, MATH310, IS201."
+
+[P10]
+"I want to apply max load.
+Reason: I want to strengthen my academic background and prepare for future opportunities."
+
+[P11]
+"Maximum load.
+Courses: PSY201, ART210, HIS220, MATH230, ENG220.
+Plan: I will balance my workload carefully across all courses."
+
+[P12]
+"Max load request.
+Courses: CS101, MATH201, ENG301, HIS101, SOCI202.
+Reason: I need to catch up with core requirements."
+
+[P13]
+"Request max load.
+Plan: I will dedicate more time to studying and improving my performance."
+
+[P14]
+"I want max load.
+Courses: CORE102, CORE105, SOCI101, ENG105, ART201.
+I believe these courses align with my academic interests."
+
+[P15]
+"Max load request.
+Reason: I want to explore different academic fields and gain broader knowledge.
+Courses: CS201, CS208, ENG208, MATH104, CS208."

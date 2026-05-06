@@ -1,0 +1,95 @@
+===================================================
+ACADEMIC AGENT - EXTRACTION STRESS TEST PROMPTS
+===================================================
+
+--- CATEGORY 3: NOISY PROMPT (15) ---
+These prompts contain casing issues (cs101), separators (, / ; spaces), typos/informal language, and bilingual text.
+
+[P01]
+"hi i want to request max course load this semester
+courses: cs101 ,math201,eng301 ,his101,soci202
+reason: honestly i feel like my previous semesters were not challenging enough and i want to push myself more academically, also i am a bit behind on core requirements so i need to catch up
+plan: i will make a weekly schedule, reduce gaming time, and prioritize assignments earlier instead of last minute like before"
+
+[P02]
+"Request max load this sem!!!
+Course -> CS201; CS208; ENG208; ART104; MATH104
+Reason: i want to build stronger foundation before junior year because i feel like my basics are still weak in some areas
+Plan: i don’t join any clubs right now so i can fully focus, also planning to study with friends to keep consistency"
+
+[P03]
+"maximum load request
+courses CS201 CS208 ENG208 MATH104 (5class)
+reason: want study more fundamental subj since later courses require strong background and i don’t want to struggle later
+plan: no extracurricular activities this sem and will attend office hours more often"
+
+[P04]
+"Hi prof, em muốn đăng ký max load
+Courses: CS101, MATH201, ENG301, HIS101, SOCI202
+Reason: em thấy mình có thể handle được vì các kỳ trước em vẫn giữ GPA ổn định và muốn học nhanh hơn để không bị trễ tiến độ
+Plan: em sẽ hạn chế tham gia hoạt động ngoài và tập trung vào việc học, đồng thời lập kế hoạch học rõ ràng mỗi tuần"
+
+[P05]
+"I wanna take max load -> CS101/MATH201/ENG301/HIS101/SOCI202
+reason cuz I need catch up core requirements and also want to explore different areas before deciding my major fully
+plan hmm i will try to manage time better, like setting deadlines earlier and not procrastinate too much"
+
+[P06]
+"Max course load request
+courses: CS210,CS211,CS212,MATH240,IS200
+reason: i want to strengthen my technical foundation early so later advanced courses will be easier to follow
+plan: i won’t take part-time job this semester and will dedicate most of my time to studying and practicing coding daily"
+
+[P07]
+"pls approve max load
+Course list: PSY101, ART102, HIS103, MATH201, ENG102
+Reason: I want to stay on track and also explore different disciplines before finalizing my academic direction
+Plan: I will allocate fixed study hours daily and regularly review materials instead of cramming before exams"
+
+[P08]
+"I want max load request (fall sem)
+courses: SOCI201,SOCI202,MATH205,IS210,CS105
+reason: finish major earlier and keep flexibility for future semesters
+plan: structured weekly schedule, group study sessions, and regular consultation with professors if needed"
+
+[P09]
+"maximum course load form submit
+Course list CORE102 CORE105 SOCI101 ENG105 ART201
+Reason: i want to explore majors and also improve my writing skills which are important for many courses
+Plan: i will connect knowledge across courses and spend extra time practicing writing and reading"
+
+[P10]
+"Max load?
+courses = CS301, CS302, CS303, MATH310, IS201
+reason: i want to graduate faster and take more advanced electives later
+plan: reduce extracurricular activities and focus mainly on coursework and projects"
+
+[P11]
+"hello i apply max load
+courses: cs101 math101 his101 eng101 soci101
+reason: my GPA from previous semester is quite stable so i think i can handle more workload
+plan: continue same study habits but improve time management and reduce distractions"
+
+[P12]
+"Max load request!!
+Courses: CS101, MATH201, ENG301, HIS101, SOCI202
+Reason: I already handled similar workload before and I want to maintain my progress toward graduation
+Plan: I will keep a consistent study routine and avoid overcommitting to outside activities"
+
+[P13]
+"Request: maximum load
+course: CS201,CS208,ENG208,MATH104,CS208
+reason: want stronger fundamental knowledge before taking higher-level courses
+plan: no clubs this semester and dedicate more time for assignments and revision"
+
+[P14]
+"max course load pls
+Courses: PSY201 ART210 HIS220 MATH230 ENG220
+Reason: I want to prepare for future opportunities and keep my academic progress strong
+Plan: balance workload by dividing study time across subjects and tracking deadlines carefully"
+
+[P15]
+"i need max load asap
+course list: CS101,MATH201,ENG301,HIS101,SOCI202
+reason: i need to catch up with core units and avoid delaying my graduation
+plan: self-study regularly, revise weekly, and seek help early if I face difficulties"
