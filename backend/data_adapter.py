@@ -2,13 +2,14 @@
 
 import json
 import os
+import sqlite3
 
 BASE_DIR = os.path.dirname(__file__)
 DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'datasets', 'fuv_data.db'))
 current_semester = 'Spring 2026'  
 current_course_offerings = 'course_2526'
 
-// SAVE DATA TO SQL DATABASE
+#  SAVE DATA TO SQL DATABASE
 def save_status(student_id, status, request_id): 
     """
     Save the status of the student request to SQL database. 
@@ -85,7 +86,7 @@ def update_maxcourse_info(student_id, course_ids=None, reason=None, plan=None):
     con.commit()
     con.close()
 
-// LOAD DATA FROM SQL DATABASE
+#  LOAD DATA FROM SQL DATABASE
 def load_deadline(current_semester):
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()

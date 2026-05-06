@@ -1,9 +1,10 @@
 import os 
 import requests
 import json 
-import re 
+import re
 
 required_fields = ['course_ids', 'reason', 'plan']
+
 EXTRACT_MAX_COURSELOAD = """
 You are an academic agent help to optimize academic workflow. 
 Extract the following fields from the student message:
@@ -25,6 +26,7 @@ state = {
     "reason": None,
     "plan": None
 }
+
 def parse_json(text_blob: str):
     text_blob = text_blob.strip()
 
@@ -89,7 +91,7 @@ def update_state(state, extracted):
 
 def main():
     api_key = os.environ.get("GEMINI_API_KEY")
-    print(api_key)
+    # print(api_key)
     user_input = "I want to learn maximum courseload to graduate on time, enroll in these 3 courses: CS101, CS103, CS208"
     prompt = build_prompt(user_input)
     output = send_request(api_key, prompt)

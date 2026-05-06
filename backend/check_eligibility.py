@@ -16,7 +16,7 @@ current_course_offerings = 'course_2526'
 def eligible_check(data):
     load_all_data(data)
 
-    unavailable_courses = load_course_availability(data['course_code'])
+    unavailable_courses = load_course_availability(data['course_ids'])
     if unavailable_courses:
         return f"Course(s) {unavailable_courses} not available for this semester. Please re-check the course information."
 
@@ -36,7 +36,7 @@ def eligible_check(data):
 if __name__ == "__main__":
     data = {
         'student_id': 25372,
-        'course_code': ['CS101', 'CS400'],
+        'course_ids': ['CS101', 'CS400'],
         'reason': 'Fulfill graduation requirements',
         'plan': 'Spend extra time on coursework and seek support from instructor and Academic Affairs when needed.'
     }

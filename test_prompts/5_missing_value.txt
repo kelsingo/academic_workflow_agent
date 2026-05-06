@@ -32,7 +32,7 @@ Plan: I will allocate fixed time daily for studying and revision."
 Reason: I want to complete my academic requirements earlier.
 Plan: I will focus more on studying and reduce distractions."
 
-[P07]
+[P07] -> Wrong extracting (dont have reason but the extracted missing = 0)
 "I’d like max load.
 Courses: CS210, CS211, CS212, MATH240, IS200.
 I am confident I can manage the workload."
