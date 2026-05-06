@@ -1,0 +1,100 @@
+===================================================
+ACADEMIC AGENT - EXTRACTION STRESS TEST PROMPTS
+===================================================
+
+--- CATEGORY 4: ADVERSARIAL PROMPT (15) ---
+These prompts contain reordered fields, conflicting info (“maybe”, “tentative”), irrelevant noise, and multiple intents.
+
+[P01]
+"I know max load can be difficult and I’ve been thinking a lot about it. Last semester I joined multiple clubs and it was quite busy, but I still maintained a decent GPA. 
+Courses I am considering are CS101, MATH201, ENG301, HIS101, SOCI202.
+Reason: I want to catch up with my academic plan and not fall behind.
+Plan: I will reduce extracurricular activities and focus more on coursework this time."
+
+[P02]
+"Plan: I will carefully manage my time and prioritize academic work over other activities.
+Reason: I want to graduate earlier and open up more opportunities.
+(Also the courses are CS201, CS208, ENG208, ART104, MATH104.)
+So I would like to request maximum course load."
+
+[P03]
+"I previously took CS101 but had to drop it due to personal reasons. This semester I plan to retake it along with MATH201, ENG301, HIS101, SOCI202.
+Reason: I want to improve my academic record and stay on track.
+Plan: I will attend all classes and actively seek help when needed."
+
+[P04]
+"Maximum load request.
+Reason: I want to explore my interests and gain broader knowledge across disciplines.
+Extra: I am also planning to learn a new skill outside academics.
+Courses: PSY101, ART102, HIS103, MATH201, ENG102.
+Plan: I will organize my schedule carefully to balance all responsibilities."
+
+[P05]
+"Courses: CS301, CS302, CS303, MATH310, IS201
+But I might drop one depending on workload.
+Reason: I aim to accelerate my graduation timeline.
+Plan: I will reduce outside commitments and focus on studying."
+
+[P06]
+"I want to request max load.
+Courses: CS210, CS211, CS212, MATH240, IS200
+Reason: I want to build a strong technical foundation for future courses.
+Plan: I will dedicate consistent hours daily for studying and practice.
+Note: I may adjust my courses if necessary."
+
+[P07]
+"Request max load.
+Courses: SOCI201, SOCI202, MATH205, IS210, CS105
+Also I might consider a part-time job.
+Reason: I want to complete my program earlier.
+Plan: I will try to balance work and study effectively."
+
+[P08]
+"I am still unsure if I should request maximum load, but I think I can handle it.
+Courses: CS101, MATH201, ENG301, HIS101, SOCI202.
+Reason: I want to catch up and challenge myself.
+Plan: I will monitor my workload and adjust if necessary."
+
+[P09]
+"Courses: CORE102, CORE105, SOCI101, ENG105, ART201
+Plan: I will improve my writing and analytical skills through these courses.
+Reason: I want to explore different academic areas before deciding my major.
+I have already submitted another request but wanted to send this again."
+
+[P10]
+"Maximum load request.
+I believe my GPA is sufficient to support this request.
+Courses (tentative): PSY201, ART210, HIS220, MATH230, ENG220.
+Plan: I will maintain a structured study schedule and seek help when needed."
+
+[P11]
+"Reason: I want to graduate faster and take advanced courses earlier.
+Courses: CS301, CS302, CS303, MATH310, IS201
+Plan: I will reduce extracurricular involvement.
+However, I might still join a club if time allows."
+
+[P12]
+"I want max load but I am also a bit concerned about the workload.
+Courses: CS201, CS208, ENG208, MATH104, CS208
+Reason: I want to strengthen my fundamentals.
+Plan: I will limit extracurricular activities, maybe just one club."
+
+[P13]
+"Courses are listed below:
+CS101, MATH201, ENG301, HIS101, SOCI202
+These are tentative and might change.
+Reason: I want to stay on track academically.
+Plan: I will remain flexible and adjust my schedule if needed."
+
+[P14]
+"Requesting max load.
+Plan: I will manage my time effectively and stay disciplined.
+Courses: PSY101, ART102, HIS103, MATH201, ENG102
+Reason: I want to maintain steady academic progress.
+Extra: I also enjoy reading in my free time."
+
+[P15]
+"I previously did not perform well in one course, but I have improved since then.
+This semester I plan to take CS101, MATH201, ENG301, HIS101, SOCI202.
+Reason: I want to improve my academic performance and stay on track.
+Plan: I will dedicate more time to studying and seek help earlier."

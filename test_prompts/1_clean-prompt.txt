@@ -1,0 +1,98 @@
+===================================================
+ACADEMIC AGENT - EXTRACTION STRESS TEST PROMPTS
+===================================================
+
+--- CATEGORY 1: CLEAN PROMPT (10) ---
+These should extract perfectly with no issues.
+
+[P01] Text format 1
+"I'd like to submit a maximum course load request for this semester.
+Courses: CS101, MATH201, ENG301, HIS101, SOCI202.
+My plan is to complete my CS major requirements by Year 3.
+Reason: I am ahead on electives and need to catch up on core units."
+
+[P02] Text format 2
+"I want to request for maximum course load for this semester.
+Course list: CS201, CS208, ENG208, ART104, MATH104
+Reason: I want to study more fundamental subjects to have a better 
+background in my major and minor before becoming a junior student and 
+be able to register for higher courses in the next semester. Moreover, 
+I also want to explore other fields which are interesting to me.
+Plan: I don't have any extracurricular activities, such as student 
+clubs, to ensure my time to study. Moreover, I have some background 
+in STEM, so keeping up with the classes is possible for me. Otherwise, 
+if something does not follow my plan, I will drop a course during 
+Add/Drop week."
+
+[P03] Text format 3
+"I want to request for maximum course load for this semester. I plan 
+to study 5 classes such as CS201, CS208, ENG208, CS208, MATH104. The 
+reason is I want to study more fundamental subjects to have a better 
+background in my major and minor before becoming a junior student and 
+be able to register for higher courses in the next semester. About this 
+semester's plan, I don't have any extracurricular activities, such as 
+student clubs, to ensure my time to study. Moreover, I have some 
+background in STEM, so keeping up with the classes is possible for me."
+
+[P03] Text format 4
+"I would like to submit the maximum course load form.
+Course list: CORE102, CORE105, SOCI101, ENG105, ART201
+Reason: Besides 2 core courses, I will take SOCI 101 and ENG 105 for 
+exploratory courses. These are two majors that I am currently 
+interested in so I want to try both of them in this semester to find 
+which suits me better. Besides, I think I need a course to support my 
+writing and reading, so I plan to choose ART 201 as my 5th course. 
+Plan: I will utilize ART 201's knowledge and skills to improve my 
+writing and reading. For two courses related to my major, I will do my 
+best to integrate the knowledge of both subjects."
+
+[P04] Bullet point format 1
+"Request for maximum course load:
+- Courses: CS101, MATH201, ENG301, HIS101, SOCI202
+- Plan: Complete Year 2 requirements
+- Reason: I was approved for this before and my GPA is 3.5"
+
+[P04] Bullet point format 2
+"Maximum load request:
+- Course list: PSY101, ART102, HIS103, MATH201, ENG102
+- Reason: I need to stay on track for my academic plan
+- Plan: I will allocate fixed study hours daily"
+
+[P05] Bullet point format 3
+"Applying for max credits:
+- Courses: CS210, CS211, CS212, MATH240, IS200
+- Reason: I want to strengthen my technical foundation early
+- Plan: No part-time job this semester, full focus on academics"
+
+[P06] Bullet point format 4
+"Maximum course load form:
+- Courses: CORE201, CORE202, PSY101, SOCI102, ENG210
+- Plan: Finish core curriculum before senior year
+- Reason: I have consistently handled heavy course loads in past semesters"
+
+[P07] Mixed format 1
+"I want to submit a maximum course load request for this Spring since 
+I want to graduate on time and improve my GPA in this 
+last semester.
+- Course ID: CS101, CORE105, CORE101, MATH101, HIS101
+- Reason: I'm planning to finish my degree faster and I've always 
+handled stress well."
+
+[P08] Mixed format 2
+"I would like to request max course load this Fall.
+Courses include: SOCI201, SOCI202, MATH205, IS210, CS105.
+My goal is to complete my major earlier than expected.
+- Reason: I am confident in managing workload due to previous experience
+- Plan: Structured weekly schedule and study groups"
+
+[P09] Mixed format 3
+"Maximum course load request:
+I plan to take the following courses: PSY201, ART210, HIS220, MATH230, ENG220.
+- Plan: Balance workload with proper time management
+Reason: I want to prepare for future academic opportunities early."
+
+[P10] Mixed format 4
+"Hi, I'd like to apply for maximum credits this semester.
+Course list: CS301, CS302, CS303, MATH310, IS201
+Reason: To accelerate my graduation timeline and take advanced courses sooner.
+- Plan: I have reduced extracurricular commitments and will focus on coursework."
