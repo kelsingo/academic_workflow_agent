@@ -40,11 +40,10 @@ Browser — open with Live Server:
 open frontend/web.html
 ```
 
----
 
 ## Code Usage
 
-### 1. Set up environment
+### Set up environment
 ```bash
 cp .env.example .env
 ```
