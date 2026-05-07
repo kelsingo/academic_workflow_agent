@@ -37,14 +37,19 @@ python -m backend.check_mail
 
 Browser — open with Live Server:
 ```bash
-frontend/web.html -> http://127.0.0.1:5500
+open frontend/web.html
 ```
 
 ---
 
 ## Code Usage
 
-### 1. Set up API Key
+### 1. Set up environment
+```bash
+cp .env.example .env
+```
+
+#### Set up API Key
 
 Set your Gemini API key as an environment variable:
 
@@ -57,19 +62,6 @@ For Windows' PowerShell:
 $env:GEMINI_API_KEY="your__api_key_here"
 ```
 
-### 2. Run extraction test 
-```bash
-python API_request.py
-```
-
-## Example Output 
-```
-{
-  "course_ids": ["CS101", "CS103", "CS208"],
-  "reason": null,
-  "plan": null
-}
-```
 
 ## Backend 
 ### Datasets
