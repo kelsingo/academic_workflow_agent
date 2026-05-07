@@ -2,8 +2,6 @@ import os
 from backend.API_request import send_request, parse_json
 from backend.check_eligibility import eligible_check
 
-required_fields = ['course_ids', 'reason', 'plan']
-
 CHECK_PROMPT = """
 You are an academic workflow assistant.
 
