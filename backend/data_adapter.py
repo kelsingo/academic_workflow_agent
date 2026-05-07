@@ -42,32 +42,32 @@ def update_status(student_id, new_status):
     con.commit()
     con.close()
 
-def save_maxcourse_info(course_ids, reason, plan):
+def save_maxcourse_info(course_codes, reason, plan):
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
-    for id in course_ids:
-        course_id_1 = id[0]
-        course_id_2 = id[1] 
-        course_id_3 = id[2]
-        course_id_4 = id[3]
-        course_id_5 = id[4]    
+    for code in course_codes:
+        course_code_1 = code[0]
+        course_code_2 = code[1]
+        course_code_3 = code[2]
+        course_code_4 = code[3]
+        course_code_5 = code[4]
     cur.execute('''
-        INSERT INTO maxcourse_requests (course_id_1, course_id_2, course_id_3, course_id_4, course_id_5, reason, plan)
+        INSERT INTO maxcourse_requests (course_code_1, course_code_2, course_code_3, course_code_4, course_code_5, reason, plan)
         VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (course_id_1, course_id_2, course_id_3, course_id_4, course_id_5, reason, plan))
+    ''', (course_code_1, course_code_2, course_code_3, course_code_4, course_code_5, reason, plan))
     con.commit()
     con.close()
 
-def update_maxcourse_info(student_id, course_ids=None, reason=None, plan=None):
+def update_maxcourse_info(student_id, course_codes=None, reason=None, plan=None):
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
     
-    if course_ids is not None:
+    if course_codes is not None:
         cur.execute('''
             UPDATE maxcourse_requests
-            SET course_id_1 = ?, course_id_2 = ?, course_id_3 = ?, course_id_4 = ?, course_id_5 = ?
+            SET course_code_1 = ?, course_code_2 = ?, course_code_3 = ?, course_code_4 = ?, course_code_5 = ?
             WHERE student_id = ?
-        ''', (course_ids[0], course_ids[1], course_ids[2], course_ids[3], course_ids[4], student_id))
+        ''', (course_codes[0], course_codes[1], course_codes[2], course_codes[3], course_codes[4], student_id))
     
     if reason is not None:
         cur.execute('''
