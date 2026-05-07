@@ -1,10 +1,9 @@
 // =============================================================
 // UI helpers
-// These functions are used by chat.js and polling.js.
 // =============================================================
 
 
-// ── CHAT WIDGET TOGGLE ────────────────────────────────────────
+// CHAT WIDGET TOGGLE 
 function toggleChat() {
   STATE.chatOpen = !STATE.chatOpen;
   document.getElementById('chat-body').classList.toggle('collapsed', !STATE.chatOpen);
@@ -12,22 +11,20 @@ function toggleChat() {
 }
 
 
-// ── TEXTAREA AUTO-RESIZE ──────────────────────────────────────
+// TEXTAREA AUTO-RESIZE
 function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 80) + 'px';
 }
 
 
-// ── CURRENT TIME STRING ───────────────────────────────────────
+// CURRENT TIME STRING 
 function nowStr() {
   return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
 
 
-// ── ADD A CHAT MESSAGE ────────────────────────────────────────
-// role: 'agent' | 'user'
-// html: innerHTML string (may contain tags)
+// ADD A CHAT MESSAGE 
 function addMessage(role, html) {
   const wrap = document.getElementById('chat-messages');
   const row  = document.createElement('div'); row.className = `msg-row ${role}`;
@@ -43,7 +40,7 @@ function addMessage(role, html) {
 }
 
 
-// ── TYPING INDICATOR ──────────────────────────────────────────
+// TYPING INDICATOR 
 function showTyping() {
   const wrap = document.getElementById('chat-messages');
   const row  = document.createElement('div'); row.className = 'msg-row agent'; row.id = 'typing-row';
@@ -57,8 +54,7 @@ function showTyping() {
 function hideTyping() { document.getElementById('typing-row')?.remove(); }
 
 
-// ── AGENT REPLY (with typing delay) ──────────────────────────
-// Returns a Promise — use `await agentReply(...)` to sequence messages
+// AGENT REPLY (with typing delay)
 function agentReply(html, delay = 800) {
   return new Promise(resolve => {
     showTyping();
@@ -67,8 +63,7 @@ function agentReply(html, delay = 800) {
 }
 
 
-// ── QUICK REPLY CHIPS ─────────────────────────────────────────
-// labels: string[]
+// QUICK REPLY CHIPS
 // onClick: each chip calls addMessage('user', label) + routeMessage(label)
 function addChips(labels) {
   const bar = document.getElementById('quick-replies-bar');
@@ -82,9 +77,8 @@ function addChips(labels) {
 }
 
 
-// ── STATUS TRACKER HTML ───────────────────────────────────────
+// STATUS TRACKER HTML
 // Builds the multi-step progress tracker shown in the chat.
-// Used by chat.js and polling.js.
 function buildTracker(status, advisorDec, registrarDec, deadline) {
   const steps = [
     { label: 'Request Submitted',  sub: '' },
@@ -125,12 +119,22 @@ function buildTracker(status, advisorDec, registrarDec, deadline) {
 
 function fmtDeadline(iso) {
   try {
-    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  } catch { return iso; }
+    const date = new Date(iso);
+    if (isNaN(date.getTime())) return 'Invalid Date';
+    return date.toLocaleString('en-US', { 
+      month: 'short', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit',
+      timeZone: 'UTC'
+    });
+  } catch { 
+    return 'Invalid Date'; 
+  }
 }
 
 
-// ── ELIGIBILITY ANIMATION ─────────────────────────────────────
+// ELIGIBILITY ANIMATION 
 // Inserts an animated checklist into the chat message stream.
 async function runEligibilityAnimation() {
   const checks = [
@@ -166,7 +170,7 @@ async function runEligibilityAnimation() {
 }
 
 
-// ── PENDING REQUEST BANNER ────────────────────────────────────
+// PENDING REQUEST BANNER 
 function updateBanner(data) {
   const banner = document.getElementById('pending-banner');
   if (!data) { banner.classList.add('hidden'); return; }

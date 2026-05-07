@@ -1,23 +1,19 @@
 // =============================================================
-// How it works:
-//   1. After a request is submitted, startPolling(request_id) is called.
-//   2. Every POLL_INTERVAL_MS, the frontend calls GET /api/status/{id}.
-//   3. If the status has changed, onStatusChanged() fires:
-//      - Updates the status tracker in the chat
-//      - Shows a browser push notification
-//      - Shows an in-page toast
-//   4. Polling stops automatically when status is final (approved/rejected).
+// Updates the status tracker in the chat
+// Shows a browser push notification
+// Shows an in-page toast
+// Polling stops automatically when status is final (approved/rejected).
 // =============================================================
 
 
-// ── START POLLING ─────────────────────────────────────────────
+// START POLLING 
 function startPolling(requestId) {
   stopPolling();  // clear any existing timer first
   STATE.pollTimer = setInterval(() => pollOnce(requestId), CONFIG.POLL_INTERVAL_MS);
   console.log(`[Polling] Started for request ${requestId} every ${CONFIG.POLL_INTERVAL_MS / 1000}s`);
 }
 
-// ── STOP POLLING ──────────────────────────────────────────────
+// STOP POLLING 
 function stopPolling() {
   if (STATE.pollTimer) {
     clearInterval(STATE.pollTimer);
@@ -26,7 +22,7 @@ function stopPolling() {
   }
 }
 
-// ── SINGLE POLL ──────────────────────────────────────────────
+// SINGLE POLL
 async function pollOnce(requestId) {
   try {
     const data = await apiGetStatus(requestId);
@@ -37,7 +33,7 @@ async function pollOnce(requestId) {
   }
 }
 
-// ── HANDLE STATUS UPDATE ─────────────────────────────────────
+// HANDLE STATUS UPDATE 
 // Called each poll cycle. Only reacts when status actually changes.
 function handleStatusUpdate(data) {
   const prevStatus = STATE.pendingRequest?.status;
@@ -58,7 +54,7 @@ function handleStatusUpdate(data) {
   }
 }
 
-// ── REACT TO STATUS CHANGE ─────────────────────
+// REACT TO STATUS CHANGE
 // Called when polling detects status has changed.
 // Advisor rejection hands off to _showRejectionFlow() in chat.js.
 function onStatusChanged(data, prevStatus) {
@@ -125,7 +121,7 @@ function onStatusChanged(data, prevStatus) {
   }
 }
 
-// ── BROWSER PUSH NOTIFICATIONS ───────────────────────────────
+// BROWSER PUSH NOTIFICATIONS
 // Push notification when student is away from the page
 async function requestNotifPermission() {
   if (!('Notification' in window)) return;
@@ -141,7 +137,7 @@ function notifyPush(title, body) {
 }
 
 
-// ── IN-PAGE TOAST ─────────────────────────────────────────────
+// IN-PAGE TOAST 
 // Visible notification when student is on the page
 let _toastTimer;
 function notifyToast(icon, title, body) {

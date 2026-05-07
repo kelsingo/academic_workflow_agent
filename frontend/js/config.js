@@ -3,8 +3,7 @@
 // =============================================================
 
 const CONFIG = {
-  // ── STEP 2: Connect UI - Backend ─────────────────────────────
-  // TODO: Replace with your real FastAPI URL
+  // Connect UI - Backend 
   API_BASE: 'http://localhost:8000',
 
   // How often the frontend polls the backend for status updates (ms)

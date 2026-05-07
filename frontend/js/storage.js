@@ -1,25 +1,46 @@
 // =============================================================
-// localStorage helpers
-//
 // Keeps the active request in localStorage so students can close
 // the browser and return to see the same status.
 //
-// When you switch to a real database, you can keep using
-// these functions as a local cache.
+// Only CLEARS final requests:
+// - Approved by registrar
+// - Rejected by registrar
 // =============================================================
 
 
-// Save/overwrite the current active request
+// Only clears if status is truly FINAL (approved or registrar rejected)
 function storageSaveRequest(data) {
-  localStorage.setItem(CONFIG.LS_KEY, JSON.stringify(data));
-  STATE.pendingRequest = data;
+  // Only clear truly final statuses
+  const isFinalApproval = data.status === 'approved';
+  const isRegistrarRejection = data.status === 'rejected' && data.registrar_decision === 'rejected';
+  
+  if (isFinalApproval || isRegistrarRejection) {
+    // These are truly final - don't save
+    storageClearRequest();
+  } else {
+    // Keep: pending_advisor, pending_registrar, or advisor rejection
+    localStorage.setItem(CONFIG.LS_KEY, JSON.stringify(data));
+    STATE.pendingRequest = data;
+  }
 }
 
 // Load request from localStorage on page load
 // Returns parsed object or null if nothing saved
 function storageLoadRequest() {
   try {
-    return JSON.parse(localStorage.getItem(CONFIG.LS_KEY));
+    const data = JSON.parse(localStorage.getItem(CONFIG.LS_KEY));
+    if (!data) return null;
+    
+    // Clear only truly final requests
+    const isFinalApproval = data.status === 'approved';
+    const isRegistrarRejection = data.status === 'rejected' && data.registrar_decision === 'rejected';
+    
+    if (isFinalApproval || isRegistrarRejection) {
+      storageClearRequest();
+      return null;
+    }
+    
+    return data;
   } catch {
     return null;
   }

@@ -3,7 +3,7 @@
 // =============================================================
 
 
-// ── INPUT HANDLERS ────────────────────────────────────────────
+// INPUT HANDLERS 
 function handleKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendUserMessage(); }
 }
@@ -19,7 +19,6 @@ function sendUserMessage() {
 }
 
 
-// ── MAIN ROUTER ───────────────────────────────────────────────
 // Dispatches to the correct handler based on STATE.step
 async function routeMessage(text) {
   STATE.typing = true;
@@ -41,7 +40,7 @@ async function routeMessage(text) {
 }
 
 
-// ── STEP: IDLE ────────────────────────────────────────────────
+// IDLE
 async function handleIdle(text, lower) {
   if (lower.includes('maximum') || lower.includes('course load') || lower.includes('submit request') || lower.includes('overload')) {
     STATE.step = 'collecting';
@@ -61,7 +60,7 @@ async function handleIdle(text, lower) {
   }
 
   else if (lower.includes('check') || lower.includes('status')) {
-    // ── STEP 8: Student returns and checks status ─────────────
+    // Student returns and checks status 
     const req = storageLoadRequest();
     if (req) {
       await agentReply(
@@ -86,14 +85,12 @@ async function handleIdle(text, lower) {
 }
 
 
-// ── STEP 3: COLLECTING student input ─────────────────────────
-// Calls POST /api/extract (extract.py) which uses Gemini LLM to parse
-// the student's free-text and validates course IDs against the database.
+// COLLECTING student input 
 async function handleCollecting(text, lower) {
   STATE.step = 'checking';
   await agentReply(`Got it! Let me extract your request details…`, 400);
 
-  // ── Step 3a: Call LLM extraction endpoint ────────────────────
+  // Call LLM extraction endpoint 
   let extracted;
   try {
     const resp = await fetch(`${CONFIG.API_BASE}/api/extract`, {
@@ -112,7 +109,7 @@ async function handleCollecting(text, lower) {
     extracted = _regexFallback(text);
   }
 
-  // ── Step 3b: Handle validation errors from backend ───────────
+  // Handle validation errors from backend 
   // Errors include: missing fields, course not in DB, too many courses
   if (!extracted.is_valid) {
     STATE.step = 'collecting';
@@ -121,20 +118,20 @@ async function handleCollecting(text, lower) {
     return;
   }
 
-  // ── All good: store and proceed ──────────────────────────────
+  // All good: store and proceed
   STATE._collected = {
     courses: extracted.courses,
     reason:  extracted.reason  || 'Not specified',
     plan:    extracted.plan    || 'Not specified',
   };
 
-  // ── Step 3 UI: Animated eligibility display ──────────────────
+  // UI: Animated eligibility display
   // Visual only — real eligibility check runs inside /api/submit (Step 4)
   await runEligibilityAnimation();
   await new Promise(r => setTimeout(r, 400));
   await agentReply(`<span class="sbadge ok">✅ Eligible</span> All checks passed! Submitting your request…`, 600);
 
-  // ── Step 4: Submit to backend ───────────────────────
+  // Submit to backend 
   await submitToBackend(extracted.courses, extracted.reason, extracted.plan);
 }
 
@@ -149,9 +146,7 @@ function _regexFallback(text) {
 }
 
 
-// ── STEP 4: Submit request to backend ────────
-// Calls POST /api/submit which runs eligibility check, saves to DB,
-// and sends the advisor email (Steps 4 + 5).
+// Submit request to backend
 async function submitToBackend(courses, reason, plan) {
   STATE.step = 'advisor_wait';
 
@@ -180,7 +175,7 @@ async function submitToBackend(courses, reason, plan) {
     );
 
   } catch (e) {
-    // ── Check if this is an eligibility failure (HTTP 400) ───────
+    // Check if this is an eligibility failure (HTTP 400)
     if (e.message && e.message.includes('400')) {
       STATE.step = 'collecting';
       // Try to get the error detail from the response
@@ -193,7 +188,7 @@ async function submitToBackend(courses, reason, plan) {
       return;
     }
 
-    // ── Demo/offline fallback ────────────────────────────────────
+    // Demo/offline fallback 
     console.warn('[Submit] Backend offline, using mock:', e.message);
     const mockId       = 'MOCK' + Math.random().toString(36).slice(2, 6).toUpperCase();
     const mockDeadline = new Date(Date.now() + 48 * 3600 * 1000).toISOString();
@@ -218,8 +213,7 @@ async function submitToBackend(courses, reason, plan) {
 
 
 // ══════════════════════════════════════════════════════════════════
-// STEP 6: ADVISOR WAIT
-// Real decisions arrive via polling.js → onStatusChanged().
+// ADVISOR WAIT
 // This handler manages:
 //   - "Check status" user queries
 //   - The full rejection flow (suggest fix -> resubmit)
@@ -227,7 +221,7 @@ async function submitToBackend(courses, reason, plan) {
 // ══════════════════════════════════════════════════════════════════
 async function handleAdvisorWait(text, lower) {
 
-  // ── Check status ──────────────────────────────────────────────
+  // Check status 
   if (lower.includes('check') || lower.includes('status')) {
     const req = storageLoadRequest();
     await agentReply(
@@ -239,7 +233,7 @@ async function handleAdvisorWait(text, lower) {
     return;
   }
 
-  // ── DEMO: Simulate advisor approval ───────────────────────────
+  // DEMO: Simulate advisor approval
   if (lower.includes('simulate') && lower.includes('approv')) {
     STATE.step = 'registrar_wait';
     const req = storageLoadRequest();
@@ -259,7 +253,7 @@ async function handleAdvisorWait(text, lower) {
     return;
   }
 
-  // ── DEMO: Simulate advisor rejection ──────────────────────────
+  // DEMO: Simulate advisor rejection 
   if (lower.includes('simulate') && (lower.includes('den') || lower.includes('reject'))) {
     const req = storageLoadRequest();
     const mockReason = 'GPA does not meet the minimum requirement for maximum course load this semester.';
@@ -275,15 +269,12 @@ async function handleAdvisorWait(text, lower) {
     return;
   }
 
-  // ── Fallback ──────────────────────────────────────────────────
   await agentReply(`Your request is with your advisor. You'll be notified automatically when they respond.`);
   addChips(['Check status', 'Simulate: Advisor Approves', 'Simulate: Advisor Denies']);
 }
 
 
-// ── STEP 6b: Rejection flow (used by both real polling + demo) ───
-// Called by onStatusChanged() in polling.js when status → 'rejected' (advisor stage)
-// and by demo simulation above.
+// Rejection flow (used by both real polling + demo) 
 async function _showRejectionFlow(reason) {
   STATE.step = 'rejected_advisor';
   notifyToast('❌', 'Advisor Decision', 'Your request was not approved by your advisor.');
@@ -298,10 +289,10 @@ async function _showRejectionFlow(reason) {
 }
 
 
-// ── STEP 6b: Student responses after rejection ────────────────────
+// Student responses after rejection 
 async function handleRejectedAdvisor(text, lower) {
 
-  // ── Student wants AI suggestions ─────────────────────────────
+  // Student wants AI suggestions 
   if (lower.includes('yes') && lower.includes('suggest')) {
     const req = storageLoadRequest();
     if (!req?.request_id) {
@@ -356,7 +347,7 @@ async function handleRejectedAdvisor(text, lower) {
     return;
   }
 
-  // ── Student will revise on their own ─────────────────────────
+  // Student will revise on their own 
   if (lower.includes('no') || lower.includes('myself')) {
     STATE.step = 'collecting';
     storageClearRequest();
@@ -368,7 +359,7 @@ async function handleRejectedAdvisor(text, lower) {
     return;
   }
 
-  // ── Cancel ───────────────────────────────────────────────────
+  // Cancel 
   if (lower.includes('cancel')) {
     STATE.step = 'idle';
     storageClearRequest();
@@ -382,10 +373,10 @@ async function handleRejectedAdvisor(text, lower) {
 }
 
 
-// ── STEP 6b: Review AI suggestions ───────────────────────────────
+//  Review AI suggestions 
 async function handleSuggestionReview(text, lower) {
 
-  // ── Accept suggestions and resubmit ──────────────────────────
+  // Accept suggestions and resubmit
   if (lower.includes('resubmit') || lower.includes('yes')) {
     if (!STATE._suggestions) {
       STATE.step = 'collecting';
@@ -407,7 +398,7 @@ async function handleSuggestionReview(text, lower) {
     return;
   }
 
-  // ── Student wants to edit suggestions first ───────────────────
+  // Student wants to edit suggestions first 
   if (lower.includes('edit') || lower.includes('first')) {
     STATE.step = 'collecting';
     STATE._prefill = STATE._suggestions;   // ui hint for pre-filled input
@@ -422,7 +413,7 @@ async function handleSuggestionReview(text, lower) {
     return;
   }
 
-  // ── Cancel ───────────────────────────────────────────────────
+  // Cancel 
   if (lower.includes('cancel')) {
     STATE.step = 'idle';
     storageClearRequest();
@@ -436,11 +427,7 @@ async function handleSuggestionReview(text, lower) {
 }
 
 
-// ══════════════════════════════════════════════════════════════════
 // STEP 7: REGISTRAR WAIT
-// Real decisions arrive via polling.js → onStatusChanged().
-// Demo simulation chips for testing.
-// ══════════════════════════════════════════════════════════════════
 async function handleRegistrarWait(text, lower) {
 
   if (lower.includes('check') || lower.includes('status')) {
