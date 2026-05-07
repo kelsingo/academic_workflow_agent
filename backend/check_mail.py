@@ -1,5 +1,5 @@
 """
-Check Gmail inbox for advisor/registrar replies (run in a second terminal)
+Check Gmail inbox for advisor/registrar replies
 
 How it works:
   1. Every 30s, connects to Gmail via IMAP and checks for UNREAD email whose subject contains a known Request ID
@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ── CONFIG ────────────────────────────────────────────────────────
+# CONFIG 
 GMAIL_SENDER       = os.environ.get("SENDER_EMAIL")
 GMAIL_APP_PASSWORD = os.environ.get("SENDER_PASSWORD")
 BACKEND_URL        = 'http://localhost:8000'
@@ -32,7 +32,7 @@ IMAP_HOST          = "imap.gmail.com"
 REQUEST_ID_PATTERN = re.compile(r'\b(REQ[A-Z0-9]{4,8})\b')
 
 
-# ── IMAP CONNECTION ───────────────────────────────────────────────
+# IMAP CONNECTION 
 def connect_imap() -> imaplib.IMAP4_SSL:
     mail = imaplib.IMAP4_SSL(IMAP_HOST)
     mail.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
@@ -40,7 +40,7 @@ def connect_imap() -> imaplib.IMAP4_SSL:
     return mail
 
 
-# ── DECODE EMAIL HEADER ───────────────────────────────────────────
+# DECODE EMAIL HEADER 
 def decode_header(raw: str) -> str:
     parts = email.header.decode_header(raw or "")
     decoded = []
@@ -52,7 +52,7 @@ def decode_header(raw: str) -> str:
     return " ".join(decoded)
 
 
-# ── EXTRACT PLAIN TEXT BODY ───────────────────────────────────────
+# EXTRACT PLAIN TEXT BODY 
 def extract_body(msg: email.message.Message) -> str:
     body = ""
     if msg.is_multipart():
@@ -68,7 +68,7 @@ def extract_body(msg: email.message.Message) -> str:
     return body.strip()
 
 
-# ── FIND REQUEST ID ───────────────────────────────────────────────
+# FIND REQUEST ID 
 def find_request_id(subject: str, body: str) -> str | None:
     for text in (subject, body):
         match = REQUEST_ID_PATTERN.search(text)
@@ -77,7 +77,7 @@ def find_request_id(subject: str, body: str) -> str | None:
     return None
 
 
-# ── DETERMINE SENDER ROLE ─────────────────────────────────────────
+# DETERMINE SENDER ROLE 
 def get_sender_role(sender_email: str) -> str | None:
     """
     Returns 'registrar' if sender is the registrar email.
@@ -97,7 +97,7 @@ def get_sender_role(sender_email: str) -> str | None:
     return "advisor"
 
 
-# ── CALL BACKEND WEBHOOK ──────────────────────────────────────────
+# CALL BACKEND WEBHOOK 
 def notify_backend(role: str, request_id: str, body: str) -> bool:
     endpoint = f"{BACKEND_URL}/api/{role}-reply"
     try:
@@ -117,12 +117,12 @@ def notify_backend(role: str, request_id: str, body: str) -> bool:
         return False
 
 
-# ── MARK EMAIL AS READ ────────────────────────────────────────────
+# MARK EMAIL AS READ 
 def mark_as_read(mail: imaplib.IMAP4_SSL, uid: str):
     mail.uid("store", uid, "+FLAGS", "\\Seen")
 
 
-# ── SINGLE POLL CYCLE ─────────────────────────────────────────────
+# SINGLE POLL CYCLE 
 def poll_once():
     try:
         mail = connect_imap()
@@ -154,14 +154,14 @@ def poll_once():
 
             print(f"[Poller]   From: {sender} | Subject: {subject[:60]}")
 
-            # ── Determine who sent this ───────────────────────────
+            # Determine who sent this 
             role = get_sender_role(sender)
             if role is None:
                 print(f"[Poller]   Skipping — sender is our own system")
                 mark_as_read(mail, uid)
                 continue
 
-            # ── Find Request ID in subject or body ────────────────
+            # Find Request ID in subject or body 
             request_id = find_request_id(subject, body)
             if not request_id:
                 print(f"[Poller]   No Request ID found — skipping")
@@ -170,7 +170,7 @@ def poll_once():
 
             print(f"[Poller]   Role: {role} | Request ID: {request_id}")
 
-            # ── Notify backend ────────────────────────────────────
+            # Notify backend 
             success = notify_backend(role, request_id, body)
             if success:
                 mark_as_read(mail, uid)
@@ -181,7 +181,7 @@ def poll_once():
     mail.logout()
 
 
-# ── MAIN LOOP ─────────────────────────────────────────────────────
+# MAIN LOOP
 def main():
     if not GMAIL_SENDER or not GMAIL_APP_PASSWORD:
         print("GMAIL_SENDER and GMAIL_APP_PASSWORD must be set in .env")

@@ -12,7 +12,7 @@ load_dotenv()
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
-# ── GEMINI CALL ────────────────────────────────────────────
+# GEMINI CALL 
 def _call_gemini(prompt: str) -> str:
     """Send prompt to Gemini, return raw text response."""
     
@@ -49,7 +49,7 @@ def _parse_json(blob: str) -> dict:
         return {}
 
 
-# ── CLASSIFY EMAIL REPLY ───────────────────────────────
+# CLASSIFY EMAIL REPLY 
 CLASSIFY_PROMPT = """
 You are processing an academic advisor's or registrar's email reply about a 
 student's Maximum Course Load request at Fulbright University Vietnam.
@@ -115,7 +115,7 @@ def _keyword_fallback(text: str) -> tuple[str, str | None]:
     return "rejected", reason
 
 
-# ── SUGGEST FIX WHEN ADVISOR DENIES ─────────────────────
+# SUGGEST FIX WHEN ADVISOR DENIES 
 SUGGEST_FIX_PROMPT = """
 You are an academic advisor assistant at Fulbright University Vietnam.
 
@@ -188,7 +188,7 @@ def suggest_fix(
         }
 
 
-# ── QUICK TEST ────────────────────────────────────────────────────
+# QUICK TEST 
 if __name__ == "__main__":
     test_email = """
     Hi, thanks for reaching out.

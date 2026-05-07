@@ -4,6 +4,42 @@ This project implements a backend pipeline for an academic agent with an integra
 
 The pipeline then evaluates eligibility using student and course information datasets. Based on the results, the system proceeds to request advisor approval when necessary and ultimately notifies the school system for final processing.
 
+## Project Structure
+```
+academic_workflow_agent/
+├── backend/
+│   ├── main.py               
+│   ├── validate_info.py      - LLM extract + field validation
+│   ├── check_eligibility.py  - Check DB eligibility 
+│   ├── data_adapter.py       - DB helpers (load/save)
+│   ├── send_mail.py          - Send Gmail
+│   ├── classify_llm.py       - Classify reply & Suggest fix
+│   └── check_mail.py         - Check inbox automatically
+├── datasets/
+│   └── fuv_data.db
+└── frontend/
+    └── web.html
+```
+
+## Start Program
+
+Terminal 1 — API server:
+```bash
+cd academic_workflow_agent
+uvicorn backend.main:app --reload --port 8000
+```
+
+Terminal 2 — Gmail inbox:
+```bash
+cd academic_workflow_agent
+python -m backend.check_mail
+```
+
+Browser — open with Live Server:
+```bash
+frontend/web.html -> http://127.0.0.1:5500
+```
+
 ---
 
 ## Code Usage
@@ -87,27 +123,3 @@ Function ```check_eligibility.py``` load data from ```fuv_data.db``` and check s
 - Check whether student has enough credits for the 5 requested courses. 
 
 2. Load data: request deadline, course credits, student data. 
-
----
-
-## Start Program
-
-```bash
-# Terminal 1: Start backend
-python3 backend/main.py
-
-# Terminal 2: Start UI
-open frontend/web.html
-```
-
-
-## Configuration
-
-1. **Gmail Setup**
-   ```bash
-   cp .env.example .env
-   # Edit .env with:
-   # - Gmail: 
-   # - App Password: 
-   # - Gemini Key:
-   ```

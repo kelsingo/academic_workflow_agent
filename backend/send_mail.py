@@ -1,7 +1,3 @@
-"""
-Send emails via Gmail
-"""
-
 import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -18,7 +14,7 @@ GMAIL_SMTP_HOST    = "smtp.gmail.com"
 GMAIL_SMTP_PORT    = 587
 
 
-# ── SHARED SEND HELPER ───────────────────────────────────────────
+# SHARED SEND HELPER 
 def _send(to_email: str, subject: str, html_body: str):
     """
     Low-level send over Gmail SMTP with TLS.
@@ -45,7 +41,7 @@ def _send(to_email: str, subject: str, html_body: str):
     print(f"[Email] ✅ Sent to {to_email} — {subject[:60]}")
 
 
-# ── SHARED HTML WRAPPER ───────────────────────────────────────────
+# SHARED HTML WRAPPER 
 def _html_wrap(inner: str) -> str:
     return f"""
 <!DOCTYPE html>
@@ -85,7 +81,7 @@ def _html_wrap(inner: str) -> str:
 </html>"""
 
 
-# ── EMAIL TO ADVISOR ─────────────────────────────────────
+# EMAIL TO ADVISOR 
 def send_advisor_email(request: dict):
     """
     Send approval request email to the student's academic advisor.
@@ -166,7 +162,7 @@ processed by the Registrar's Office.</p>
     )
 
 
-# ── EMAIL TO REGISTRAR ───────────────────────────────────
+# EMAIL TO REGISTRAR 
 def send_registrar_email(request: dict):
     """
     Forward approved request to Registrar's Office.
@@ -224,7 +220,7 @@ def send_registrar_email(request: dict):
     )
 
 
-# ── EMAIL TO STUDENT ─────────────────────────────────────
+# EMAIL TO STUDENT 
 def send_student_email(request: dict, status: str, reason: str = None):
     """
     Notify the student of the final outcome.
@@ -287,7 +283,7 @@ def send_student_email(request: dict, status: str, reason: str = None):
     )
 
 
-# ── HELPERS ───────────────────────────────────────────────────────
+# HELPERS 
 def _fmt_deadline(iso: str) -> str:
     try:
         # Parse ISO format and display as user-friendly date
@@ -298,7 +294,7 @@ def _fmt_deadline(iso: str) -> str:
         return iso or "48 hours from now"
 
 
-# ── QUICK TEST ────────────────────────────────────────────────────
+# QUICK TEST 
 if __name__ == "__main__":
     # Test with a mock request
     mock_request = {
