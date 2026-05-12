@@ -29,6 +29,7 @@ async function routeMessage(text) {
   if      (STATE.step === 'idle')              await handleIdle(text, lower);
   else if (STATE.step === 'collecting')        await handleCollecting(text, lower);
   else if (STATE.step === 'checking')          { /* automated */ }
+  else if (STATE.step === 'confirm_submission') await handleConfirmSubmission(text, lower);
   else if (STATE.step === 'advisor_wait')      await handleAdvisorWait(text, lower);
   else if (STATE.step === 'rejected_advisor')  await handleRejectedAdvisor(text, lower);
   else if (STATE.step === 'suggestion_review') await handleSuggestionReview(text, lower);
@@ -54,33 +55,9 @@ async function handleIdle(text, lower) {
     );
   }
 
-  else if (lower.includes('hello') || lower.includes('hi') || lower.includes('xin')) {
-    await agentReply(`Hello! 👋 How can I help you today? I can assist with course load requests, academic policies, registration, and more.`);
-    addChips(['Submit course load request', 'Check my courses', 'Academic calendar']);
-  }
-
-  else if (lower.includes('check') || lower.includes('status')) {
-    // Student returns and checks status 
-    const req = storageLoadRequest();
-    if (req) {
-      await agentReply(
-        `Here's the current status of your request <strong>#${req.request_id}</strong>:` +
-        buildTracker(req.status, req.advisor_decision, req.registrar_decision, req.deadline), 600
-      );
-      // Restore correct step
-      STATE.step = req.status === 'pending_registrar' ? 'registrar_wait' : 'advisor_wait';
-      if (req.request_id.startsWith('MOCK')) {
-        addChips(['Simulate: Advisor Approves', 'Simulate: Advisor Denies', 'Check status']);
-      }
-    } else {
-      await agentReply(`You don't have an active request. Would you like to submit one?`);
-      addChips(['Submit course load request']);
-    }
-  }
-
   else {
-    await agentReply(`I can help with that! For course load requests, try <em>"Submit maximum course load request"</em>. For other inquiries, I'm happy to assist.`);
-    addChips(['Submit course load request', 'Browse knowledge', 'Check my courses']);
+    await agentReply(`I cannot help with that right now. Please submit a course load request.`);
+    addChips(['Submit course load request']);
   }
 }
 
@@ -88,7 +65,20 @@ async function handleIdle(text, lower) {
 // COLLECTING student input 
 async function handleCollecting(text, lower) {
   STATE.step = 'checking';
-  await agentReply(`Got it! Let me extract your request details…`, 400);
+
+  // Validate that the input is specifically about submitting maximum course load requests
+  const submitKeywords = ['submit', 'maximum', 'course load', 'overload', 'request courses'];
+  const hasSubmitKeyword = submitKeywords.some(kw => lower.includes(kw));
+  
+  // Also check for course IDs in the text (e.g., CS101, IS202)
+  const courseIdPattern = /[A-Z]{2,4}\d{3}/i;
+  const hasCourseIds = courseIdPattern.test(text);
+  
+  if (!hasSubmitKeyword && !hasCourseIds) {
+    STATE.step = 'collecting';
+    await agentReply(`I cannot handle that. Please provide a valid course load request with course IDs, reason, and plan.<br><br><em>Format: "Course IDs: CS101, CS204 | Reason: ... | Plan: ..."</em>`, 500);
+    return;
+  }
 
   // Call LLM extraction endpoint 
   let extracted;
@@ -118,21 +108,24 @@ async function handleCollecting(text, lower) {
     return;
   }
 
-  // All good: store and proceed
+  // All good: store and proceed to confirmation
   STATE._collected = {
     courses: extracted.courses,
     reason:  extracted.reason  || 'Not specified',
     plan:    extracted.plan    || 'Not specified',
   };
 
-  // UI: Animated eligibility display
-  // Visual only — real eligibility check runs inside /api/submit (Step 4)
-  await runEligibilityAnimation();
-  await new Promise(r => setTimeout(r, 400));
-  await agentReply(`<span class="sbadge ok">✅ Eligible</span> All checks passed! Submitting your request…`, 600);
-
-  // Submit to backend 
-  await submitToBackend(extracted.courses, extracted.reason, extracted.plan);
+  // Show confirmation message
+  STATE.step = 'confirm_submission';
+  await agentReply(
+    `<strong>Please confirm your request:</strong><br><br>` +
+    `<strong>Courses:</strong> ${extracted.courses.join(', ')}<br>` +
+    `<strong>Reason:</strong> ${extracted.reason}<br>` +
+    `<strong>Plan:</strong> ${extracted.plan}<br><br>` +
+    `Do you want to submit this request?`,
+    700
+  );
+  addChips(['Yes, submit', 'No, cancel']);
 }
 
 // Regex fallback used when backend is offline (demo mode only)
@@ -209,6 +202,46 @@ async function submitToBackend(courses, reason, plan) {
     );
     addChips(['Simulate: Advisor Approves', 'Simulate: Advisor Denies', 'Check status']);
   }
+}
+
+
+// ══════════════════════════════════════════════════════════════════
+// CONFIRM SUBMISSION
+// User confirms or cancels the request before submitting
+// ══════════════════════════════════════════════════════════════════
+async function handleConfirmSubmission(text, lower) {
+  
+  // User confirms submission
+  if (lower.includes('yes') || lower.includes('submit') || lower.includes('confirm')) {
+    if (!STATE._collected) {
+      STATE.step = 'collecting';
+      await agentReply(`Let me start over. Please provide your course IDs, reason, and plan.`);
+      return;
+    }
+
+    STATE.step = 'checking';
+    
+    // UI: Animated eligibility display
+    await runEligibilityAnimation();
+    await new Promise(r => setTimeout(r, 400));
+    await agentReply(`<span class="sbadge ok">✅ Eligible</span> All checks passed! Submitting your request…`, 600);
+
+    // Submit to backend 
+    await submitToBackend(STATE._collected.courses, STATE._collected.reason, STATE._collected.plan);
+    return;
+  }
+
+  // User cancels
+  if (lower.includes('no') || lower.includes('cancel')) {
+    STATE.step = 'collecting';
+    STATE._collected = null;
+    await agentReply(`No problem. Please revise your request and re-enter it.<br><br><em>Format: "Course IDs: CS101, CS204 | Reason: ... | Plan: ..."</em>`, 600);
+    return;
+  }
+
+  // Unclear response
+  await agentReply(`Please confirm: do you want to submit this request?`);
+  addChips(['Yes, submit', 'No, cancel']);
 }
 
 
