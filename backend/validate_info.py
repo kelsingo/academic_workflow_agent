@@ -3,7 +3,7 @@ from backend.API_request import send_request, parse_json
 from backend.check_eligibility import eligible_check
 
 CHECK_PROMPT = """
-You are an academic workflow assistant.
+You are an academic workflow assistant. Your job is to extract and validate course load request submissions.
 
 Extract the following fields from the student message:
 - course_ids (list of course IDs, max 5, all unique)
@@ -14,14 +14,19 @@ Validation rules:
 - All fields are required
 - course_ids must contain 5 courses
 - all course_ids must be unique
+- If reason is vague/missing, set to null
+- If plan is vague/missing, set to null
+- Return valid=false if reason or plan is null
+- REASON = WHY the student needs the courses (motivation, goals, deadlines)
+- PLAN = HOW the student will manage the workload (study methods, time management, support)
 
-Return ONLY JSON in this format:
+Return ONLY JSON:
 {
   "valid": true,
   "missing_fields": [],
   "errors": [],
   "data": {
-    "student_id: 25372,
+    "student_id": 25372,
     "course_ids": [],
     "reason": "",
     "plan": ""
@@ -34,7 +39,7 @@ Rules:
 - If validation fails, set valid=false
 - If field missing, set value to null
 
-Message:
+Student Message:
 {{student_prompt}}
 """.strip()
 

@@ -139,7 +139,6 @@ function fmtDeadline(iso) {
 async function runEligibilityAnimation() {
   const checks = [
     { label: 'Loading student record…',       result: '✅ Student record found',            delay: 600 },
-    { label: 'Verifying GPA requirement…',    result: '✅ GPA meets minimum (3.4)',          delay: 800 },
     { label: 'Checking course availability…', result: '✅ All courses available this term',  delay: 900 },
     { label: 'Calculating credit hours…',     result: '✅ Credit load within policy limits', delay: 700 },
   ];

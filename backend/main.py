@@ -329,11 +329,19 @@ async def api_extract(body: ExtractBody):
 
     if not result.get("valid"):
         errors = result.get("errors", []) + result.get("missing_fields", [])
+        extracted = result.get("data", {})
+        
+        # Check for null reason/plan specifically
+        has_null_reason = extracted.get("reason") is None
+        has_null_plan = extracted.get("plan") is None
+        
         return {
             "is_valid": False,
-            "courses":  [],
-            "reason":   None,
-            "plan":     None,
+            "courses":  extracted.get("course_ids", []) or [],
+            "reason":   extracted.get("reason"),
+            "plan":     extracted.get("plan"),
+            "has_null_reason": has_null_reason,
+            "has_null_plan": has_null_plan,
             "errors":   errors or ["Please check your input and try again."],
         }
 
@@ -359,8 +367,8 @@ async def api_extract(body: ExtractBody):
     return {
         "is_valid": True,
         "courses":  course_ids,
-        "reason":   extracted.get("reason") or "Not specified",
-        "plan":     extracted.get("plan")   or "Not specified",
+        "reason":   extracted.get("reason"),
+        "plan":     extracted.get("plan"),
         "errors":   [],
     }
 

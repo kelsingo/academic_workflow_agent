@@ -28,6 +28,8 @@ async function routeMessage(text) {
 
   if      (STATE.step === 'idle')              await handleIdle(text, lower);
   else if (STATE.step === 'collecting')        await handleCollecting(text, lower);
+  else if (STATE.step === 'resubmit_courses')  await handleResubmitCourses(text, lower);
+  else if (STATE.step === 'resubmit_fields')   await handleResubmitFields(text, lower);
   else if (STATE.step === 'checking')          { /* automated */ }
   else if (STATE.step === 'confirm_submission') await handleConfirmSubmission(text, lower);
   else if (STATE.step === 'advisor_wait')      await handleAdvisorWait(text, lower);
@@ -102,8 +104,77 @@ async function handleCollecting(text, lower) {
   // Handle validation errors from backend 
   // Errors include: missing fields, course not in DB, too many courses
   if (!extracted.is_valid) {
+    // Check if this is a null reason/plan issue
+    if (extracted.has_null_reason || extracted.has_null_plan) {
+      STATE.step = 'resubmit_fields';
+      STATE._resubmit_courses = extracted.courses || [];
+      STATE._needs_reason = extracted.has_null_reason;
+      STATE._needs_plan = extracted.has_null_plan;
+      
+      // Initialize collected data with extracted courses and existing fields
+      STATE._collected = {
+        courses: extracted.courses || [],
+        reason:  extracted.reason || '',
+        plan:    extracted.plan || '',
+      };
+      
+      let msg = `<strong>We need more details:</strong><br><br>`;
+      if (extracted.has_null_reason) {
+        msg += `❌ <strong>Reason is too vague or missing.</strong> Please explain <em>specifically WHY</em> you need the extra course load (not just your goal).<br>Example: "I'm behind on core requirements and need to graduate on schedule"<br><br>`;
+      }
+      if (extracted.has_null_plan) {
+        msg += `❌ <strong>Plan is too generic or missing.</strong> Please provide <em>specific, actionable steps</em> to manage your workload (not just stating you'll manage it).<br>Example: "I will attend office hours weekly, form a study group, and allocate 2 hours daily per course"<br><br>`;
+      }
+      
+      if (extracted.has_null_reason && extracted.has_null_plan) {
+        msg += `Please resubmit BOTH in this format:<br><em>"Reason: [WHY] | Plan: [HOW]"</em>`;
+      } else {
+        msg += `Please resubmit just the ${extracted.has_null_reason ? 'reason' : 'plan'}.`;
+      }
+      
+      await agentReply(msg, 700);
+      return;
+    }
+    
+    // Check if reason and plan are suspiciously similar (extraction error)
+    const reasonStr = (extracted.reason || '').toLowerCase();
+    const planStr = (extracted.plan || '').toLowerCase();
+    const similarity = (str1, str2) => {
+      const words1 = new Set(str1.split(/\s+/));
+      const words2 = new Set(str2.split(/\s+/));
+      const common = [...words1].filter(w => words2.has(w)).length;
+      return common / Math.max(words1.size, words2.size);
+    };
+    
+    if (similarity(reasonStr, planStr) > 0.6) {
+      STATE.step = 'collecting';
+      await agentReply(
+        `⚠️ <strong>It looks like your reason and plan got mixed up.</strong><br><br>` +
+        `Please make sure to submit them separately and clearly:<br><br>` +
+        `<strong>Reason</strong> = WHY you need the courses (goals, deadlines, requirements)<br>` +
+        `<strong>Plan</strong> = HOW you'll manage the workload (study strategies, time management)<br><br>` +
+        `<em>Format: "Course IDs: CS101, CS204 | Reason: [WHY] | Plan: [HOW]"</em>`,
+        600
+      );
+      return;
+    }
+    
     STATE.step = 'collecting';
     const errorMsg = extracted.errors?.[0] || 'Please check your input and try again.';
+    
+    // Check if this is a course availability error
+    if (errorMsg.includes('not available') || errorMsg.includes('not in DB')) {
+      STATE.step = 'resubmit_courses';
+      STATE._resubmit_reason = extracted.reason;
+      STATE._resubmit_plan = extracted.plan;
+      await agentReply(
+        `${errorMsg}<br><br>` +
+        `Please resubmit with valid course IDs (e.g., Course IDs: CS101, CS204, CORE101, IS101, IS202).`,
+        600
+      );
+      return;
+    }
+    
     await agentReply(`${errorMsg}<br><br>Please revise and re-enter your request.`, 500);
     return;
   }
@@ -111,8 +182,8 @@ async function handleCollecting(text, lower) {
   // All good: store and proceed to confirmation
   STATE._collected = {
     courses: extracted.courses,
-    reason:  extracted.reason  || 'Not specified',
-    plan:    extracted.plan    || 'Not specified',
+    reason:  extracted.reason,
+    plan:    extracted.plan,
   };
 
   // Show confirmation message
@@ -130,12 +201,239 @@ async function handleCollecting(text, lower) {
 
 // Regex fallback used when backend is offline (demo mode only)
 function _regexFallback(text) {
+  // Extract course IDs: look for pattern like "CS101, IS202, ..."
   const courseMatch = text.match(/(?:course[_ ]?ids?:?\s*)([A-Z0-9,\s]+?)(?:\||reason|plan|$)/i);
-  const reasonMatch = text.match(/reason:?\s*([^|]+?)(?:\||plan|$)/i);
-  const planMatch   = text.match(/plan:?\s*([^|]+?)$/i);
-  const courses     = courseMatch ? courseMatch[1].trim().split(/[\s,]+/).filter(c => c.length > 2) : [];
-  if (courses.length < 1) return { is_valid: false, courses: [], errors: ['Could not detect course IDs. Please use the format: "Course IDs: CS101, CS204 | Reason: ... | Plan: ..."'] };
-  return { is_valid: true, courses, reason: reasonMatch?.[1]?.trim() || 'Not specified', plan: planMatch?.[1]?.trim() || 'Not specified', errors: [] };
+  
+  // Extract reason: from "reason:" to next pipe or "plan" keyword
+  const reasonMatch = text.match(/reason:?\s*([^|]*?)(?=\||plan:|$)/i);
+  
+  // Extract plan: from "plan:" to end
+  const planMatch = text.match(/plan:?\s*([^|]*?)$/i);
+  
+  const courses = courseMatch ? courseMatch[1].trim().split(/[\s,]+/).filter(c => c.length > 2) : [];
+  const reason = reasonMatch ? reasonMatch[1].trim() : null;
+  const plan = planMatch ? planMatch[1].trim() : null;
+  
+  if (courses.length < 1) {
+    return { is_valid: false, courses: [], errors: ['Could not detect course IDs. Please use the format: "Course IDs: CS101, CS204 | Reason: ... | Plan: ..."'] };
+  }
+  
+  if (!reason || reason.length < 30) {
+    return { is_valid: false, courses, errors: ['Your reason is too vague or generic. Please explain specifically WHY you need the extra course load'], has_null_reason: true };
+  }
+  
+  if (!plan || plan.length < 40) {
+    return { is_valid: false, courses, reason, errors: ['Your plan is too generic. Please provide specific, actionable steps to manage your workload'], has_null_plan: true };
+  }
+  
+  return { is_valid: true, courses, reason, plan, errors: [] };
+}
+
+
+// RESUBMIT COURSES - Handle course ID resubmission when courses are unavailable
+async function handleResubmitCourses(text, lower) {
+  // Extract course IDs from the user's input
+  const courseMatch = text.match(/(?:course[_ ]?ids?:?\s*)([A-Z0-9,\s]+?)(?:\||$)/i);
+  const courses = courseMatch ? courseMatch[1].trim().split(/[\s,]+/).filter(c => c.length > 2) : [];
+  
+  if (courses.length === 0) {
+    await agentReply(
+      `Could not detect course IDs. Please use this format:<br><br>` +
+      `<em>"Course IDs: CS101, CS204, CORE101, IS101, IS202"</em>`,
+      500
+    );
+    return;
+  }
+  
+  // Check for duplicates in the submitted courses
+  const uniqueCourses = new Set(courses);
+  if (uniqueCourses.size !== courses.length) {
+    const duplicates = courses.filter((c, idx) => courses.indexOf(c) !== idx);
+    await agentReply(
+      `❌ <strong>Duplicate course(s) found:</strong> ${[...new Set(duplicates)].join(', ')}<br><br>` +
+      `All course IDs must be unique. Please resubmit with only one instance of each course.`,
+      500
+    );
+    return;
+  }
+  
+  // Check course count
+  if (courses.length !== 5) {
+    await agentReply(
+      `❌ Please submit exactly <strong>5 courses</strong>. You submitted ${courses.length}.<br><br>` +
+      `Format: "Course IDs: CS101, CS204, CORE101, IS101, IS202"`,
+      500
+    );
+    return;
+  }
+  
+  // Retrieve saved reason and plan (don't re-validate them)
+  const savedReason = STATE._resubmit_reason || 'Not specified';
+  const savedPlan = STATE._resubmit_plan || 'Not specified';
+  
+  STATE.step = 'checking';
+  
+  try {
+    const resp = await fetch(`${CONFIG.API_BASE}/api/extract`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        // Only validate the courses, don't include reason/plan to avoid duplicate detection
+        text: `Courses: ${courses.join(', ')} | Reason: Course availability recheck | Plan: Course availability recheck`,
+        student_id: STATE.student.student_id,
+      }),
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const validated = await resp.json();
+    
+    // If validation still fails (course not in DB, etc.)
+    if (!validated.is_valid) {
+      STATE.step = 'resubmit_courses';
+      const errorMsg = validated.errors?.[0] || 'Please check your input and try again.';
+      await agentReply(`${errorMsg}<br><br>Please revise and resubmit.`, 500);
+      return;
+    }
+    
+    // Success! Update collected data with new courses
+    STATE._collected = {
+      courses: courses,
+      reason:  savedReason,
+      plan:    savedPlan,
+    };
+    
+    // Move to confirmation
+    STATE.step = 'confirm_submission';
+    await agentReply(
+      `<strong>Please confirm your request:</strong><br><br>` +
+      `<strong>Courses:</strong> ${courses.join(', ')}<br>` +
+      `<strong>Reason:</strong> ${savedReason}<br>` +
+      `<strong>Plan:</strong> ${savedPlan}<br><br>` +
+      `Do you want to submit this request?`,
+      700
+    );
+    addChips(['Yes, submit', 'No, cancel']);
+    
+  } catch (e) {
+    console.warn('[ResubmitCourses] API call failed:', e.message);
+    STATE.step = 'resubmit_courses';
+    await agentReply(
+      `Could not validate your input. Please try again.`,
+      500
+    );
+  }
+}
+
+
+// RESUBMIT FIELDS - Handle partial resubmission when reason or plan is insufficient
+async function handleResubmitFields(text, lower) {
+  const needsReason = STATE._needs_reason;
+  const needsPlan = STATE._needs_plan;
+  const courses = STATE._resubmit_courses || [];
+  
+  // Ensure STATE._collected exists and has courses
+  if (!STATE._collected) {
+    STATE._collected = { courses, reason: '', plan: '' };
+  }
+  if (!STATE._collected.courses || STATE._collected.courses.length === 0) {
+    STATE._collected.courses = courses;
+  }
+  
+  // If both reason and plan are needed, try to parse them from the input
+  let submittedReason = STATE._collected.reason;
+  let submittedPlan = STATE._collected.plan;
+  
+  if (needsReason && needsPlan) {
+    // Try to extract "Reason: X | Plan: Y" or "Plan: X | Reason: Y" format
+    const reasonMatch = text.match(/reason:?\s*([^|]*?)(?=\||plan:|$)/i);
+    const planMatch = text.match(/plan:?\s*([^|]*?)(?=\||reason:|$)/i);
+    
+    submittedReason = reasonMatch ? reasonMatch[1].trim() : '';
+    submittedPlan = planMatch ? planMatch[1].trim() : '';
+    
+    if (!submittedReason && !submittedPlan) {
+      // User didn't use the format, treat entire message as error
+      await agentReply(
+        `Please provide BOTH reason and plan in this format:<br><br>` +
+        `<em>"Reason: [WHY you need the courses] | Plan: [HOW you'll manage]"</em>`,
+        600
+      );
+      return;
+    }
+  } else if (needsReason) {
+    submittedReason = text;
+  } else if (needsPlan) {
+    submittedPlan = text;
+  }
+  
+  // Validate through backend LLM (semantic validation, not character count)
+  STATE.step = 'checking';
+  
+  try {
+    const resp = await fetch(`${CONFIG.API_BASE}/api/extract`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        text: `Courses: ${courses.join(', ')} | Reason: ${submittedReason} | Plan: ${submittedPlan}`,
+        student_id: STATE.student.student_id,
+      }),
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const validated = await resp.json();
+    
+    // If validation still fails
+    if (!validated.is_valid) {
+      STATE.step = 'resubmit_fields';
+      const errorMsg = validated.errors?.[0] || 'Please check your input and try again.';
+      await agentReply(`${errorMsg}<br><br>Please revise and resubmit.`, 500);
+      return;
+    }
+    
+    // Check for duplicate reason/plan again
+    const reasonStr = (validated.reason || '').toLowerCase().trim();
+    const planStr = (validated.plan || '').toLowerCase().trim();
+    
+    const calculateSimilarity = (str1, str2) => {
+      if (!str1 || !str2) return 0;
+      const words1 = new Set(str1.split(/\s+/).filter(w => w.length > 2));
+      const words2 = new Set(str2.split(/\s+/).filter(w => w.length > 2));
+      if (words1.size === 0 || words2.size === 0) return 0;
+      const common = [...words1].filter(w => words2.has(w)).length;
+      return common / Math.max(words1.size, words2.size);
+    };
+    
+    if (calculateSimilarity(reasonStr, planStr) > 0.7) {
+      STATE.step = 'resubmit_fields';
+      await agentReply(
+        `Your reason and plan are too similar. Please make them clearly different.`,
+        500
+      );
+      return;
+    }
+    
+    // Success! Update collected data
+    STATE._collected.reason = validated.reason;
+    STATE._collected.plan = validated.plan;
+    
+    // Move to confirmation
+    STATE.step = 'confirm_submission';
+    await agentReply(
+      `<strong>Please confirm your request:</strong><br><br>` +
+      `<strong>Courses:</strong> ${STATE._collected.courses.join(', ')}<br>` +
+      `<strong>Reason:</strong> ${STATE._collected.reason}<br>` +
+      `<strong>Plan:</strong> ${STATE._collected.plan}<br><br>` +
+      `Do you want to submit this request?`,
+      700
+    );
+    addChips(['Yes, submit', 'No, cancel']);
+    
+  } catch (e) {
+    console.warn('[ResubmitFields] API call failed:', e.message);
+    STATE.step = 'resubmit_fields';
+    await agentReply(
+      `Could not validate your input. Please try again.`,
+      500
+    );
+  }
 }
 
 
@@ -283,22 +581,6 @@ async function handleAdvisorWait(text, lower) {
       buildTracker('pending_registrar', 'approved', null, req?.deadline), 800
     );
     addChips(['Simulate: Registrar Approves', 'Simulate: Registrar Rejects']);
-    return;
-  }
-
-  // DEMO: Simulate advisor rejection 
-  if (lower.includes('simulate') && (lower.includes('den') || lower.includes('reject'))) {
-    const req = storageLoadRequest();
-    const mockReason = 'GPA does not meet the minimum requirement for maximum course load this semester.';
-    if (req) {
-      req.status = 'rejected';
-      req.advisor_decision = 'rejected';
-      req.advisor_reason = mockReason;
-      storageSaveRequest(req);
-      updateBanner(req);
-    }
-    // Trigger the same rejection UI as a real rejection from polling
-    await _showRejectionFlow(mockReason);
     return;
   }
 
